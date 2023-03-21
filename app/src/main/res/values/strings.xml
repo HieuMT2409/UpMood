@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">UpMood</string>
+    <string name="button">Button</string>
+    <string name="search_your_favorite_songs">Search your favorite songs</string>
+    <string name="premium">Premium</string>
+    <string name="thu_vien">Thư viện</string>
+    <string name="tim_kiem">Tìm kiếm</string>
+    <string name="trang_chu">Trang chủ</string>
+    <string name="s">Search your favorite songs</string>
+    <string name="todo">TODO</string>
+    <string name="tod">TODO</string>
+    <string name="login">Sign In</string>
+    <string name="signup">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_email">Enter email or username</string>
+    <string name="enter_email2">Enter email</string>
+    <string name="enter_user">Enter username</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="enter_re_password">Confirm password</string>
+    <string name="check_box">I agree with the Terms and conditions and the Privacy policy.</string>
+    <string name="forgot_password">Forgot password ?</string>
+
+</resources>
