@@ -4,85 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#282727"
+    android:orientation="vertical"
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:orientation="horizontal"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:paddingEnd="6dp"
-        tools:ignore="RtlSymmetry">
-
-        <Button
-            android:id="@+id/btn_user"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/circle_btn"
-            android:contentDescription="@string/app_name"
-            android:drawableStart="@drawable/baseline_person_24"
-            android:paddingHorizontal="8dp"
-            android:text=""
-            tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
-
-
-        <EditText
-            android:id="@+id/edtSearch"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:background="@drawable/search"
-            android:drawableEnd="@drawable/baseline_search_24"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            android:textColor="#757575"
-            android:hint="@string/s"
-            android:autofillHints=""
-            tools:ignore="LabelFor,VisualLintTextFieldSize" />
-
-        <Button
-            android:id="@+id/btn_bell"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/baseline_notifications_24"
-            android:contentDescription="@string/button"
-            android:text=""
-            tools:ignore="RedundantDescriptionCheck,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
-    </LinearLayout>
-
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/s"
-            android:textColor="#43A047" />
-    </LinearLayout>
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/menu_bottom"
-        app:itemBackground="@color/black"
+        app:itemBackground="@color/bg_bar"
         app:itemIconTint="@color/color_bottom"
         app:itemTextColor="@color/color_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom"
         tools:ignore="VisualLintBottomNav" />
 
 </LinearLayout>
