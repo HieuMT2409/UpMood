@@ -6,23 +6,25 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:padding="20dp"
     tools:context=".LoginFragment">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edtUsername"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="4dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/enter_email"
+        android:hint="@string/enter_user"
         android:inputType="textPersonName"
         android:text=""
         tools:ignore="VisualLintTextFieldSize" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:autofillHints=""
@@ -32,7 +34,7 @@
         tools:ignore="VisualLintTextFieldSize" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnForgot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
@@ -42,7 +44,7 @@
         tools:ignore="RtlHardcoded" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnSignIn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -65,20 +67,22 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnFacebook"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/facebook"
+            style="?android:attr/borderlessButtonStyle"
             android:contentDescription="@string/app_name"
             android:text="" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnGoogle"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/google"
+            style="?android:attr/borderlessButtonStyle"
             android:contentDescription="@string/app_name"
             android:text="" />
     </LinearLayout>

@@ -19,7 +19,7 @@
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="4dp"
@@ -30,20 +30,9 @@
                 android:text=""
                 tools:ignore="VisualLintTextFieldSize" />
 
-            <EditText
-                android:id="@+id/editTextTextPersonName1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="4dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/enter_email2"
-                android:inputType="textPersonName"
-                android:text=""
-                tools:ignore="VisualLintTextFieldSize" />
 
             <EditText
-                android:id="@+id/editTextTextPassword"
+                android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:autofillHints=""
@@ -53,7 +42,7 @@
                 tools:ignore="VisualLintTextFieldSize" />
 
             <EditText
-                android:id="@+id/editTextTextPassword1"
+                android:id="@+id/edtConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:autofillHints=""
@@ -68,12 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:minHeight="48dp"
                 android:text="@string/check_box"
                 android:textColor="#09A72B"
                 android:textSize="18dp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

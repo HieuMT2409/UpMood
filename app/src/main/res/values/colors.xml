@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#95FFAC</color>
     <color name="bg_bar">#212121</color>
+    <color name="splash_start">#009E00</color>
+    <color name="splash_end">#FFFF96</color>
 </resources>

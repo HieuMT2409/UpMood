@@ -4,18 +4,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/login"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
->
+    android:id="@+id/login_layout"
+    >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="316dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="154dp"
+        android:layout_marginBottom="154dp"
         android:background="@drawable/round_form_login"
         android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:padding="20dp">
 
         <com.google.android.material.tabs.TabLayout
