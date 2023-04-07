@@ -11,80 +11,94 @@
     android:padding="20dp"
     tools:context=".LoginFragment">
 
-    <EditText
-        android:id="@+id/edtUsername"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="4dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/enter_user"
-        android:inputType="textPersonName"
-        android:text=""
-        tools:ignore="VisualLintTextFieldSize" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/enter_password"
-        android:inputType="textPassword"
-        tools:ignore="VisualLintTextFieldSize" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btnForgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="#03FFFFFF"
-        android:text="@string/forgot_password"
-        android:textColor="#0277BD"
-        tools:ignore="RtlHardcoded" />
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="4dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/enter_user"
+                android:inputType="textPersonName"
+                android:text=""
+                tools:ignore="VisualLintTextFieldSize" />
 
-    <Button
-        android:id="@+id/btnSignIn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:background="@drawable/btn_signin"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        tools:ignore="VisualLintButtonSize" />
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/enter_password"
+                android:inputType="textPassword"
+                tools:ignore="VisualLintTextFieldSize" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:src="@drawable/ke" />
+            <Button
+                android:id="@+id/btnSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_signin"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                tools:ignore="VisualLintButtonSize" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnForgot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#03FFFFFF"
+                android:text="@string/forgot_password"
+                android:textColor="#0277BD"
+                tools:ignore="RtlHardcoded" />
 
-        <Button
-            android:id="@+id/btnFacebook"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/facebook"
-            style="?android:attr/borderlessButtonStyle"
-            android:contentDescription="@string/app_name"
-            android:text="" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:src="@drawable/ke" />
 
-        <Button
-            android:id="@+id/btnGoogle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/google"
-            style="?android:attr/borderlessButtonStyle"
-            android:contentDescription="@string/app_name"
-            android:text="" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnFacebook"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/facebook"
+                    android:contentDescription="@string/app_name"
+                    android:text="" />
+
+                <Button
+                    android:id="@+id/btnGoogle"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/google"
+                    android:contentDescription="@string/app_name"
+                    android:text="" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
