@@ -28,11 +28,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".SignInActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".LibraryActivity"
-            android:label="@string/thu_vien"></activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+
+        <activity
+            android:name=".SignInActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+
+        <activity
+            android:name=".SignUpActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+
+        <activity
+            android:name=".LibraryActivity"
+            android:label="@string/thu_vien">
+
+        </activity>
     </application>
 
 </manifest>

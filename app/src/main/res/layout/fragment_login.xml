@@ -6,18 +6,20 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:padding="20dp"
     tools:context=".LoginFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical" >
 
             <EditText
@@ -68,13 +70,13 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:src="@drawable/ke" />
+                android:src="@drawable/ke"
+                tools:ignore="ImageContrastCheck" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:orientation="horizontal">
 
@@ -83,17 +85,18 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/facebook"
                     android:contentDescription="@string/app_name"
-                    android:text="" />
+                    android:text=""
+                    tools:ignore="DuplicateSpeakableTextCheck" />
 
                 <Button
                     android:id="@+id/btnGoogle"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/google"
                     android:contentDescription="@string/app_name"
                     android:text="" />
