@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@drawable/btn_signin"
+                android:background="@drawable/button"
                 android:text="@string/login"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp"

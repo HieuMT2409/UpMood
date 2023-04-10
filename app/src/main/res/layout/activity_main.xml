@@ -9,6 +9,61 @@
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@color/header">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btnUsername"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_signin"
+                android:contentDescription="@string/button"
+                android:minHeight="48dp"
+                android:text=""
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/btnNotify"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/baseline_notifications_none_24" />
+
+            <ImageView
+                android:id="@+id/tnOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Options"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/baseline_menu_24" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
@@ -21,7 +76,7 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_bar"
+        android:background="@color/header"
         app:itemIconTint="@color/color_bottom"
         app:itemTextColor="@color/color_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,5 +84,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_bottom"
         tools:ignore="VisualLintBottomNav" />
-
 </LinearLayout>

@@ -36,18 +36,6 @@
         </activity>
 
         <activity
-            android:name=".SignInActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
-        <activity
-            android:name=".SignUpActivity"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
-        <activity
             android:name=".LibraryActivity"
             android:label="@string/thu_vien">
 

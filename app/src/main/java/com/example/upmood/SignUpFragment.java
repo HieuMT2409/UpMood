@@ -1,41 +1,36 @@
 package com.example.upmood;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SignUpFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SignUpFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private FirebaseAuth auth;
+    private EditText edtEmailSignUp,edtPasswordSignUp,edtConfirmPasswordSignUp,edtPhone,edtUserSignUp;
+    private Button btnSignup;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public SignUpFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SignUpFragment newInstance(String param1, String param2) {
         SignUpFragment fragment = new SignUpFragment();
         Bundle args = new Bundle();
@@ -51,13 +46,63 @@ public class SignUpFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false);
+
+        //khai bao bien, anh xa view
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        auth = FirebaseAuth.getInstance();
+
+        btnSignup = view.findViewById(R.id.btnSignUp);
+        edtEmailSignUp = view.findViewById(R.id.edtEmailSignUp);
+        edtPhone = view.findViewById(R.id.edtPhone);
+        edtPasswordSignUp = view.findViewById(R.id.edtPasswordSignUp);
+        edtConfirmPasswordSignUp = view.findViewById(R.id.edtConfirmPasswordSignUp);
+        edtUserSignUp = view.findViewById(R.id.edtUserSignUp);
+
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = edtEmailSignUp.getText().toString().trim();
+                String password = edtPasswordSignUp.getText().toString().trim();
+                String re_password = edtConfirmPasswordSignUp.getText().toString().trim();
+
+                //xu ly khi o email trong
+                if(email.isEmpty()){
+                    edtEmailSignUp.setError("Email không được để trống");
+                }
+
+                //xu ly khi o password trong
+                if(password.isEmpty()){
+                    edtPasswordSignUp.setError("Password không được để trống");
+                }else {
+                    if(password.equals(re_password)){
+                        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getContext(), "Đăng ký thành công !", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getContext(), LoginActivity.class));
+                                }else {
+                                    Toast.makeText(getContext(), "Đăng ký thất bại !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }else {
+                        Toast.makeText(getContext(), "Mật khẩu nhập lại không chính xác !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        return view;
     }
 }
