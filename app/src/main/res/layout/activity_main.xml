@@ -1,87 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#282727"
-    android:orientation="vertical"
-    app:layoutDescription="@xml/activity_main_scene"
-    tools:context=".MainActivity">
+    android:contentDescription="@string/app_name"
+    tools:context=".MainActivity"
+    android:fitsSystemWindows="true"
+    android:id="@+id/drawerLayout">
+
+    <!--    tao navigation ben trai-->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:itemTextColor="@color/bg_main"
+        app:itemIconTint="@color/bg_main"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/layout_header_nav"
+        app:menu="@menu/menu_nav"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:background="@color/header">
+        android:layout_height="match_parent"
+        android:background="@color/bg_main"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.DrawerLayout"
+            android:backgroundTint="@color/header">
 
-            <Button
-                android:id="@+id/btnUsername"
-                android:layout_width="105dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_signin"
-                android:contentDescription="@string/button"
-                android:minHeight="48dp"
-                android:text=""
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/menu_notify"
+                app:popupTheme="@style/AppTheme.DrawerLayout"/>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="right"
-            android:layout_weight="1">
-            <ImageView
-                android:id="@+id/btnNotify"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_notifications_none_24" />
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-            <ImageView
-                android:id="@+id/tnOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Options"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_menu_24" />
-        </LinearLayout>
-
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/header"
+            app:itemIconTint="@color/color_bottom"
+            app:itemTextColor="@color/color_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/menu_bottom"
+            tools:ignore="VisualLintBottomNav" />
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/header"
-        app:itemIconTint="@color/color_bottom"
-        app:itemTextColor="@color/color_bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom"
-        tools:ignore="VisualLintBottomNav" />
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
