@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#393A39"
+    android:background="#19542F"
     tools:context=".LibraryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Library Fragement"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:textSize="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/btn_list_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách phát"
+            android:textSize="25dp"
+            android:backgroundTint="#0B3C10"
+            android:textColor="#95FFAC"
+            android:layout_margin="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_add_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="#19542F"
+                android:src="@drawable/baseline_add_circle_50" />
+
+            <TextView
+                android:id="@+id/txtAddArtist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thêm nghệ sĩ"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:textColor="#95FFAC"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="15dp">
+
+
+            <ImageButton
+                android:id="@+id/btn_add_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="#19542F"
+                android:src="@drawable/baseline_add_box_50" />
+
+            <TextView
+                android:id="@+id/txtAddAlbum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thêm album"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:textColor="#95FFAC"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
