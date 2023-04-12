@@ -38,7 +38,7 @@
             android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="12 tháng: 38.250 đ/th"
+            android:text="12 tháng: 73.999 đ/th"
             android:textColor="#95FFAC"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -58,7 +58,7 @@
             android:id="@+id/btn_price_month"
             android:layout_width="275dp"
             android:layout_height="wrap_content"
-            android:text="1 tháng: 93.000 đ"
+            android:text="1 tháng: 89.999 đ"
             android:textColor="#95FFAC"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -74,23 +74,13 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:backgroundTint="#B9372F"
-        app:srcCompat="@drawable/btn_price" />
+        app:srcCompat="@drawable/btn_price_month" />
 
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/txt_notify"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="Tự động gia hạn. Bỏ được mọi lúc"
-        android:textColor="#95FFAC"
-        android:textSize="20dp" />
 
     <Button
         android:id="@+id/btn_dieukhoan"
