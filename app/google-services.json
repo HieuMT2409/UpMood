@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "633013054172",
+    "firebase_url": "https://upmood-aebf6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "upmood-aebf6",
+    "storage_bucket": "upmood-aebf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633013054172:android:46068ad25007012aa6e219",
+        "android_client_info": {
+          "package_name": "com.example.upmood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633013054172-a20v0i8dvpkbek1cd6sll1urrkoog1gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnOrWo3L347ade-ZjP3Nei6oRbKVD-QJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633013054172-a20v0i8dvpkbek1cd6sll1urrkoog1gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

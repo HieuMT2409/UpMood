@@ -32,6 +32,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.upmood.databinding.ActivityMainBinding;
 import com.example.upmood.fragment_nav.ProfileFragment;
 import com.example.upmood.fragment_nav.SettingFragment;
+import com.example.upmood.fragment_nav.UpgradeFragment;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //xu ly su kien tren navigation
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
-
+        navigationView.bringToFront();
     }
 
 
@@ -124,10 +125,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.my_profile:
                 replaceFragment(new ProfileFragment());
                 break;
+            case R.id.upgrade:
+                replaceFragment(new UpgradeFragment());
+                break;
             case R.id.setting:
                 replaceFragment(new SettingFragment());
                 break;
+            case R.id.log_out:
+                Toast.makeText(this, "LOG OUT", Toast.LENGTH_SHORT).show();
+                break;
         }
+
+        item.setChecked(true);
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
