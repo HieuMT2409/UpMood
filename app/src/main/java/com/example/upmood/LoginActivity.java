@@ -3,6 +3,7 @@ package com.example.upmood;
 import static android.app.PendingIntent.getActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     //khai bao bien
     TabLayout mTabLayout;
     ViewPager2 view_pager;
-
 
     @SuppressLint("MissingInflatedId")
     @Override

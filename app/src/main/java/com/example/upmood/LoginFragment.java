@@ -1,5 +1,6 @@
 package com.example.upmood;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ public class LoginFragment extends Fragment {
     private static final String ARG_PARAM2 = "Sign Up";
     private String mParam1;
     private String mParam2;
+    private ProgressDialog progressDialog;
 
 
     public LoginFragment() {
@@ -67,6 +69,8 @@ public class LoginFragment extends Fragment {
         btnSignIn = view.findViewById(R.id.btnSignIn);
         btnFacebook = view.findViewById(R.id.btnFacebook);
         btnGoogle = view.findViewById(R.id.btnGoogle);
+        progressDialog = new ProgressDialog(getContext());
+
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +81,12 @@ public class LoginFragment extends Fragment {
                 //xu ly dang nhap
                 if(!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     if(!password.isEmpty()){
+                        progressDialog.show();
                         auth.signInWithEmailAndPassword(email, password)
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
+                                        progressDialog.dismiss();
                                         //neu dang nhap thanh cong thi chuyen sang trang home
                                         Toast.makeText(getContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(getContext(),MainActivity.class));

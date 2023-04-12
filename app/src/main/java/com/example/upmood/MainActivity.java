@@ -1,19 +1,13 @@
 package com.example.upmood;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,33 +16,36 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.example.upmood.databinding.ActivityMainBinding;
 import com.example.upmood.fragment_nav.ProfileFragment;
 import com.example.upmood.fragment_nav.SettingFragment;
 import com.example.upmood.fragment_nav.UpgradeFragment;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private ActivityMainBinding binding;
-    private Button btn_user;
     private DrawerLayout drawerLayout;
     private Toolbar toolBar;
-    private NavigationView navigationView;
-    private AppBarLayout appBar;
+    private NavigationView mnavigationView;
+    private ImageView avatar;
+    private TextView tvUserName,tvUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initUI();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -91,11 +88,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         //xu ly su kien tren navigation
-        navigationView = findViewById(R.id.navigationView);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.bringToFront();
+        mnavigationView.setNavigationItemSelectedListener(this);
+        mnavigationView.post(new Runnable() {
+            @Override
+            public void run() {
+                mnavigationView.bringToFront();
+            }
+        });
+
+        //hien thong tin nguoi dung
+        showUserInfo();
     }
 
+    private void initUI(){
+        mnavigationView = findViewById(R.id.navigationView);
+        //anh xa view Header Menu
+        avatar = mnavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        tvUserName = mnavigationView.getHeaderView(0).findViewById(R.id.tvUserName);
+        tvUserEmail = mnavigationView.getHeaderView(0).findViewById(R.id.tvUserEmail);
+    }
+
+    //show thong tin nguoi dung
+    private void showUserInfo(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            Log.d("showUserInfo", "User is null");
+            return;
+        }
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        Uri photo = user.getPhotoUrl();
+
+        if(name == null){
+            tvUserName.setVisibility(View.GONE);
+        }else {
+            tvUserName.setVisibility(View.VISIBLE);
+            tvUserName.setText(name);
+        }
+
+        tvUserEmail.setText(email);
+        Log.d("showUserInfo", email);
+        if (photo == null) {
+            Log.d("showUserInfo", "Photo URL is null");
+            // Thay thế bằng ảnh mặc định nếu không tìm thấy ảnh đại diện
+            Glide.with(this)
+                    .load(R.drawable.avatar_default)
+                    .circleCrop()
+                    .into(avatar);
+        } else {
+            Glide.with(this)
+                    .load(photo)
+                    .circleCrop()
+                    .error(R.drawable.avatar_default)
+                    .into(avatar);
+        }
+    }
 
 
     private void replaceFragment(Fragment fragment){
