@@ -1,5 +1,6 @@
 package com.example.upmood;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,13 +41,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView avatar;
     private TextView tvUserName,tvUserEmail;
 
+    private FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initUI();
-
+        //xu ly action bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -78,6 +80,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //xu ly cac su kien header
         drawerLayout = findViewById(R.id.drawerLayout);
         toolBar = findViewById(R.id.toolBar);
+        mnavigationView = findViewById(R.id.navigationView);
+
+        //anh xa cac item trong header title
+        avatar = mnavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        tvUserName = mnavigationView.getHeaderView(0).findViewById(R.id.tvUserName);
+        tvUserEmail = mnavigationView.getHeaderView(0).findViewById(R.id.tvUserEmail);
+
 
         //add toolbar va su kien dong/mo navigation
         setSupportActionBar(toolBar);
@@ -89,61 +98,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //xu ly su kien tren navigation
         mnavigationView.setNavigationItemSelectedListener(this);
-        mnavigationView.post(new Runnable() {
-            @Override
-            public void run() {
-                mnavigationView.bringToFront();
-            }
-        });
+        mnavigationView.bringToFront();
 
-        //hien thong tin nguoi dung
-        showUserInfo();
+        //hien thi thong tin user
+        showUserInformation();
     }
-
-    private void initUI(){
-        mnavigationView = findViewById(R.id.navigationView);
-        //anh xa view Header Menu
-        avatar = mnavigationView.getHeaderView(0).findViewById(R.id.avatar);
-        tvUserName = mnavigationView.getHeaderView(0).findViewById(R.id.tvUserName);
-        tvUserEmail = mnavigationView.getHeaderView(0).findViewById(R.id.tvUserEmail);
-    }
-
-    //show thong tin nguoi dung
-    private void showUserInfo(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null){
-            Log.d("showUserInfo", "User is null");
-            return;
-        }
-        String name = user.getDisplayName();
-        String email = user.getEmail();
-        Uri photo = user.getPhotoUrl();
-
-        if(name == null){
-            tvUserName.setVisibility(View.GONE);
-        }else {
-            tvUserName.setVisibility(View.VISIBLE);
-            tvUserName.setText(name);
-        }
-
-        tvUserEmail.setText(email);
-        Log.d("showUserInfo", email);
-        if (photo == null) {
-            Log.d("showUserInfo", "Photo URL is null");
-            // Thay thế bằng ảnh mặc định nếu không tìm thấy ảnh đại diện
-            Glide.with(this)
-                    .load(R.drawable.avatar_default)
-                    .circleCrop()
-                    .into(avatar);
-        } else {
-            Glide.with(this)
-                    .load(photo)
-                    .circleCrop()
-                    .error(R.drawable.avatar_default)
-                    .into(avatar);
-        }
-    }
-
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -179,8 +138,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 replaceFragment(new SettingFragment());
                 break;
             case R.id.log_out:
-                Toast.makeText(this, "LOG OUT", Toast.LENGTH_SHORT).show();
-                break;
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                finish();
         }
 
         item.setChecked(true);
@@ -197,6 +157,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
             super.onBackPressed();
+        }
+    }
+
+
+    //xu ly hien ten user tren header title
+    private void showUserInformation(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            return;
+        }else{
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUri = user.getPhotoUrl();
+
+            if(name == null){
+                tvUserName.setVisibility(View.GONE);
+            }else{
+                tvUserName.setVisibility(View.VISIBLE);
+                tvUserName.setText(name);
+            }
+
+            tvUserEmail.setText(email);
+            Glide.with(this).load(photoUri)
+                    .error(R.drawable.avatar_default)
+                    .into(avatar);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.upmood;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ public class SignUpFragment extends Fragment {
     private FirebaseAuth auth;
     private EditText edtEmailSignUp,edtPasswordSignUp,edtConfirmPasswordSignUp,edtPhone,edtUserSignUp;
     private Button btnSignup;
+    private ProgressDialog progressDialog;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -86,9 +88,11 @@ public class SignUpFragment extends Fragment {
                     edtPasswordSignUp.setError("Password không được để trống");
                 }else {
                     if(password.equals(re_password)){
+                        progressDialog.show();
                         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressDialog.dismiss();
                                 if(task.isSuccessful()){
                                     Toast.makeText(getContext(), "Đăng ký thành công !", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getContext(), LoginActivity.class));

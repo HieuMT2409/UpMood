@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginFragment extends Fragment {
@@ -91,6 +92,7 @@ public class LoginFragment extends Fragment {
                                         Toast.makeText(getContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(getContext(),MainActivity.class));
                                         getActivity().onBackPressed();
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
