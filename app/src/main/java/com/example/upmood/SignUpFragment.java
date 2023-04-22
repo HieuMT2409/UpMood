@@ -69,7 +69,7 @@ public class SignUpFragment extends Fragment {
         edtPasswordSignUp = view.findViewById(R.id.edtPasswordSignUp);
         edtConfirmPasswordSignUp = view.findViewById(R.id.edtConfirmPasswordSignUp);
         edtUserSignUp = view.findViewById(R.id.edtUserSignUp);
-
+        progressDialog = new ProgressDialog(getContext());
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#393A39"
-    tools:context=".PremiumFragment">
+    android:background="#19542F"
+    tools:context=".PremiumFragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Premium Fragement"
         android:layout_gravity="center"
-        android:textColor="@color/white"
+        android:textColor="#95FFAC"
         android:textSize="20dp"/>
 
 </FrameLayout>

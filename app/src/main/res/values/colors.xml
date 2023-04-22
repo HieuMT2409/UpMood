@@ -13,4 +13,5 @@
     <color name="splash_end">#FFFF96</color>
     <color name="header">#0B3C10</color>
     <color name="bg_main">#19542F</color>
+    <color name="theme_main">#393A39</color>
 </resources>

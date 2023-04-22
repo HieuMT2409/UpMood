@@ -18,10 +18,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Danh sách phát"
-            android:textSize="25dp"
-            android:backgroundTint="#0B3C10"
-            android:textColor="#95FFAC"
-            android:layout_margin="10dp"/>
+            android:textSize="20dp"
+            android:background="@drawable/btn_listmusic"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,22 +31,24 @@
             android:layout_margin="15dp"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btn_add_artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/btn_addActist"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:layout_weight="0"
-                android:background="#19542F"
-                android:src="@drawable/baseline_add_circle_50" />
+                android:background="@drawable/btn_add"
+                android:text="+"
+                android:textSize="25dp"
+                android:textColor="#95FFAC" />
 
             <TextView
                 android:id="@+id/txtAddArtist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="Thêm nghệ sĩ"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
                 android:textColor="#95FFAC"
                 android:textSize="20dp" />
         </LinearLayout>
@@ -55,14 +59,15 @@
             android:orientation="horizontal"
             android:layout_margin="15dp">
 
-
-            <ImageButton
-                android:id="@+id/btn_add_album"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/btn_addAlbum"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:layout_weight="0"
-                android:background="#19542F"
-                android:src="@drawable/baseline_add_box_50" />
+                android:backgroundTint="#0B3C10"
+                android:text="+"
+                android:textSize="25dp"
+                android:textColor="#95FFAC" />
 
             <TextView
                 android:id="@+id/txtAddAlbum"

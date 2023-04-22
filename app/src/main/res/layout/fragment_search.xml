@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#393A39"
+    android:background="#19542F"
     tools:context=".SearchFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Search Fragement"
         android:layout_gravity="center"
-        android:textColor="@color/white"
+        android:textColor="#95FFAC"
         android:textSize="20dp"/>
 
 </FrameLayout>

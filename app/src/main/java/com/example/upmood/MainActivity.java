@@ -1,8 +1,11 @@
 package com.example.upmood;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -33,7 +40,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    public static final int MY_REQUEST_CODE = 10;
+
     private ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
     private Toolbar toolBar;
@@ -41,7 +53,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView avatar;
     private TextView tvUserName,tvUserEmail;
 
-    private FirebaseUser user;
+    ProfileFragment profileFragment;
+    Uri uri;
+
+    final private ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
+                if(result.getResultCode() == RESULT_OK){
+                    Intent intent = result.getData();
+
+                    if (intent != null) {
+                        uri = intent.getData();
+                    }
+
+                    if(profileFragment == null){
+                        profileFragment = new ProfileFragment();
+                    }
+
+                    if (uri != null) {
+                        profileFragment.setUri(uri);
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //xu ly hien ten user tren header title
-    private void showUserInformation(){
+    public void showUserInformation(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
             return;
@@ -183,5 +216,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .error(R.drawable.avatar_default)
                     .into(avatar);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode ==  MY_REQUEST_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openGallery();
+            }
+        }
+    }
+
+    public void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        activityResultLauncher.launch(Intent.createChooser(intent,"Select Picture"));
     }
 }
