@@ -29,8 +29,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileFragment extends Fragment {
-    ImageView avatar_edit;
+    CircleImageView avatar_edit;
     EditText username_edit,email_edit,phone_edit;
     Button btnUpgrade;
     View view;
@@ -122,9 +124,10 @@ public class ProfileFragment extends Fragment {
                 }
         );
     }
-
-    public void setBitmapImageView(Bitmap bitmapImageView){
-        avatar_edit.setImageBitmap(bitmapImageView);
+    public void setBitMapImageView(Bitmap bitmap){
+        if (avatar_edit != null) {
+            avatar_edit.setImageBitmap(bitmap);
+        }
     }
 
     private void onClickRequestPermission() {

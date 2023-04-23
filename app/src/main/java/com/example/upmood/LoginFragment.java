@@ -97,7 +97,8 @@ public class LoginFragment extends Fragment {
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "Đăng nhập không thành công", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }else{

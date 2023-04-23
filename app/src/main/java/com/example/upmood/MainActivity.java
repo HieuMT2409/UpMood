@@ -42,6 +42,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final int MY_REQUEST_CODE = 10;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private Toolbar toolBar;
     private NavigationView mnavigationView;
-    private ImageView avatar;
+    private CircleImageView avatar;
     private TextView tvUserName,tvUserEmail;
 
     ProfileFragment profileFragment;
@@ -62,17 +64,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(result.getResultCode() == RESULT_OK){
                     Intent intent = result.getData();
 
-                    if (intent != null) {
-                        uri = intent.getData();
+                    if (intent == null) {
+                        return;
                     }
 
-                    if(profileFragment == null){
-                        profileFragment = new ProfileFragment();
+                    uri = intent.getData();
+
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+
+                        if (profileFragment != null) {
+                            profileFragment.setBitMapImageView(bitmap);
+                        }
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
 
-                    if (uri != null) {
-                        profileFragment.setUri(uri);
-                    }
                 }
             });
 
@@ -80,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //khoi tao phuong thuc profileFragment
+        profileFragment = new ProfileFragment();
 
         //xu ly action bar
         ActionBar actionBar = getSupportActionBar();

@@ -7,7 +7,7 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="70dp"
         android:layout_height="70dp"
