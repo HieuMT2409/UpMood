@@ -20,5 +20,10 @@
     <string name="phone">Phone Numbers</string>
     <string name="open_nav_drawer">Open Navigation</string>
     <string name="close_nav_drawer">Close Navigation</string>
+    <string name="facebook_app_id">1250741335870990</string>
+    <string name="fb_login_protocol_scheme">fb1250741335870990</string>
+    <string name="facebook_client_token">56789</string>
+
+
 
 </resources>
