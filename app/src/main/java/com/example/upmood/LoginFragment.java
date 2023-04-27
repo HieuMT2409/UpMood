@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -47,8 +48,7 @@ public class LoginFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private ProgressDialog progressDialog;
-
-
+    private CallbackManager callbackManager;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -61,25 +61,8 @@ public class LoginFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        printHashKey(getContext());
-
     }
 
-    public static void printHashKey(Context pContext) {
-        try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.i("TAG", "printHashKey() Hash Key: " + hashKey);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("TAG", "printHashKey()", e);
-        } catch (Exception e) {
-            Log.e("TAG", "printHashKey()", e);
-        }
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,8 +72,7 @@ public class LoginFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         //xử lý facebook
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        AppEventsLogger.activateApp(getContext());
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         // anh xa view
         edtUsername = view.findViewById(R.id.edtUsername);
