@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,10 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.upmood.MainActivity;
+import com.example.upmood.Activity.MainActivity;
 import com.example.upmood.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -91,7 +88,6 @@ public class ProfileFragment extends Fragment {
     private void initListener() {
 
         avatar_edit.setOnClickListener(view -> {
-            Log.d("Avatar", "da click ");
             onClickRequestPermission(); // kiem tra quyen truy cap
         });
 

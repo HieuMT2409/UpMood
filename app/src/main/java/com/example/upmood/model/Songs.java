@@ -1,6 +1,8 @@
 package com.example.upmood.model;
 
-public class Songs {
+import java.io.Serializable;
+
+public class Songs implements Serializable {
     private String idAlbum;
     private String idChude;
     private String image;

@@ -1,4 +1,4 @@
-package com.example.upmood;
+package com.example.upmood.Activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -6,17 +6,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -31,11 +25,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.example.upmood.Fragment.HomeFragment;
+import com.example.upmood.Fragment.LibraryFragment;
+import com.example.upmood.Fragment.PremiumFragment;
+import com.example.upmood.R;
+import com.example.upmood.Fragment.SearchFragment;
 import com.example.upmood.databinding.ActivityMainBinding;
 import com.example.upmood.fragment_nav.ProfileFragment;
 import com.example.upmood.fragment_nav.SettingFragment;
 import com.example.upmood.fragment_nav.UpgradeFragment;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -183,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.log_out:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
         }
 

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.DanhsachbaihatActivity">
+
+    <ImageView
+        android:id="@+id/bg_blur_img"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent"
+        android:contentDescription="TODO" />
+
+    <TextView
+        android:id="@+id/nameSong"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Ten bai hat"
+        android:textColor="#A1887F"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_keyboard_arrow_left_24"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:tint="#A1887F" />
+
+    <RelativeLayout
+        android:layout_marginLeft="-200dp"
+        android:layout_marginRight="-200dp"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/themeMusic"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/anhsedonem" />
+
+        <com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer
+            android:id="@+id/circleVisualizer"
+            android:layout_width="600dp"
+            android:layout_height="600dp"
+            app:avColor="@color/white"
+            app:avDensity="1"
+            app:avSpeed="slow"
+            app:avGravity="top"
+            app:avType="outline"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvscriptSong"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:text="Loi bai hat"
+                android:gravity="center"
+                android:textSize="16sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/tvTimeStart"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvTimeEnd"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/btnPreMusic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/circle_btn"
+                android:padding="10dp"
+                android:rotation="180"
+                android:src="@drawable/pre_icon"
+                tools:ignore="ImageContrastCheck" />
+
+            <ImageView
+                android:id="@+id/btnPlayMusic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/circle_btn"
+                android:padding="10dp"
+                android:src="@drawable/play_icon"
+                tools:ignore="ImageContrastCheck" />
+
+            <ImageView
+                android:id="@+id/btnNextMusic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/circle_btn"
+                android:padding="10dp"
+                android:src="@drawable/next_icon"
+                tools:ignore="ImageContrastCheck" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

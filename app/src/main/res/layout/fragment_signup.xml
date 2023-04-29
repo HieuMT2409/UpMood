@@ -8,7 +8,7 @@
     android:padding="20dp"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:id="@+id/SignUp"
-    tools:context=".LoginFragment">
+    tools:context=".Fragment.LoginFragment">
 
     <ScrollView
         android:id="@+id/ScrollSignUp"

@@ -1,40 +1,26 @@
-package com.example.upmood;
+package com.example.upmood.Fragment;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Base64;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.upmood.Activity.MainActivity;
+import com.example.upmood.R;
 import com.facebook.CallbackManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public class LoginFragment extends Fragment {
@@ -98,7 +84,7 @@ public class LoginFragment extends Fragment {
                                 progressDialog.dismiss();
                                 //neu dang nhap thanh cong thi chuyen sang trang home
                                 Toast.makeText(getContext(), "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getContext(),MainActivity.class));
+                                startActivity(new Intent(getContext(), MainActivity.class));
                                 getActivity().onBackPressed();
 
                             }).addOnFailureListener(e -> {

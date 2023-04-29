@@ -1,57 +1,85 @@
-package com.example.upmood;
+package com.example.upmood.Fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.upmood.Activity.DanhsachbaihatActivity;
+import com.example.upmood.OnItemClickListener;
+import com.example.upmood.R;
 import com.example.upmood.model.Songs;
-import com.example.upmood.model.SongsAdapter;
+import com.example.upmood.Adapter.SongsAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private RecyclerView recycleSongs;
-    private LinearLayoutManager layoutManager;
+    private RecyclerView recycleSongNew,recycleSongMaybe,recycleSongCute;
+    private LinearLayoutManager layoutManagerSongNew,layoutManagerSongMaybe,layoutManagerSongCute;
     private SongsAdapter songsAdapter;
     private List<Songs> songsList;
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         //cài đặt cho danh sách hiển thị ngang
-        layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        recycleSongs = view.findViewById(R.id.recycleSongs);
-        recycleSongs.setLayoutManager(layoutManager);
+        layoutManagerSongNew = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        layoutManagerSongMaybe = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        layoutManagerSongCute = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+
+        //layout bai hat thinh hang
+        recycleSongNew = view.findViewById(R.id.recycleSongNew);
+        recycleSongNew.setLayoutManager(layoutManagerSongNew);
+
+        //layout bai hat co the muon nghe
+        recycleSongMaybe = view.findViewById(R.id.recycleSongMaybe);
+        recycleSongMaybe.setLayoutManager(layoutManagerSongMaybe);
+
+        //layout bai hat cute
+        recycleSongCute = view.findViewById(R.id.recycleSongCute);
+        recycleSongCute.setLayoutManager(layoutManagerSongCute);
 
         //set adapter cho recycle view song
         songsList = new ArrayList<>();
-        songsAdapter = new SongsAdapter(songsList);
-        recycleSongs.setAdapter(songsAdapter);
+        songsAdapter = new SongsAdapter(getContext(),songsList);
+
+        //set bai hat cho cac recycle view
+        recycleSongNew.setAdapter(songsAdapter);
+        recycleSongMaybe.setAdapter(songsAdapter);
+        recycleSongCute.setAdapter(songsAdapter);
 
         getListSongsFromFireBase();
+
+        //bat su kien click item trong recycle view
+        songsAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(Songs song) {
+                Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
+                intent.putExtra("BaiHat",song);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return view;
     }

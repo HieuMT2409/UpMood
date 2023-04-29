@@ -1,23 +1,38 @@
-package com.example.upmood.model;
+package com.example.upmood.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.upmood.Activity.DanhsachbaihatActivity;
+import com.example.upmood.OnItemClickListener;
 import com.example.upmood.R;
+import com.example.upmood.model.Songs;
 
 import java.util.List;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsViewHolder>{
     private List<Songs> songsList;
+    private Context mContext;
+    private OnItemClickListener mListener;
 
-    public SongsAdapter(List<Songs> songsList) {
+    public SongsAdapter(Context context, List<Songs> songsList) {
+        mContext = context;
         this.songsList = songsList;
+    }
+
+    //khoi tao ham onclick dde su dung click vao item trong recycle view
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
     }
 
     @NonNull
@@ -25,7 +40,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsViewHol
     public SongsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songs_item,parent,false);
 
-        return new SongsViewHolder(view);
+        return new SongsViewHolder(view,mListener);
     }
 
     @Override
@@ -38,6 +53,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsViewHol
         //còn phần hiển thị hình ảnh cho bài hát
         holder.tvTitleSong.setText(song.getNameSong());
         holder.tvSinger.setText(song.getSinger());
+        Glide.with(mContext)
+                .load(song.getImage())
+                .error(R.drawable.anhsedonem)
+                .into(holder.imgSong);
+
 
     }
 
@@ -54,13 +74,27 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsViewHol
         private ImageView imgSong;
         private TextView tvTitleSong,tvSinger;
 
-        public SongsViewHolder(@NonNull View itemView) {
+        public SongsViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             //ánh xạ view
             imgSong = itemView.findViewById(R.id.imgSong);
             tvTitleSong = itemView.findViewById(R.id.tvTitleSong);
             tvSinger = itemView.findViewById(R.id.tvSinger);
+
+            //bắt sự kiện click
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAbsoluteAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            Songs song = songsList.get(position);
+                            listener.onItemClick(song);
+                        }
+                    }
+                }
+            });
         }
     }
 }
