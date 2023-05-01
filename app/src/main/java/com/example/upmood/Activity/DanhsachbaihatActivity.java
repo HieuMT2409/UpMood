@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -38,7 +39,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private Songs songs;
-    private ImageView bg_blur_img,themeMusic,btnBack,btnPreMusic,btnPlayMusic,btnNextMusic;
+    private ImageView bg_blur_img,themeMusic,btnBack,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd,tvscriptSong;
     private SeekBar seekBar;
@@ -83,6 +84,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         tvscriptSong = findViewById(R.id.tvscriptSong);
         btnBack = findViewById(R.id.btnBack);
         circleVisualizer = findViewById(R.id.circleVisualizer);
+        btnPlaylist = findViewById(R.id.btnPlaylist);
 
         //set thoi gian phat nhac
         tvTimeStart.setText(getTimeString(0));
@@ -123,6 +125,22 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                         .load(songs.getImage())
                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                         .into(bg_blur_img);
+            }else{
+                if(intent.hasExtra("Playlist")){
+                    songs = (Songs) intent.getSerializableExtra("Playlist");
+
+                    nameSong.setText(songs.getNameSong().toUpperCase());
+
+                    Glide.with(this)
+                            .load(songs.getImage())
+                            .error(R.drawable.avatar_default)
+                            .into(themeMusic);
+
+                    Glide.with(this)
+                            .load(songs.getImage())
+                            .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
+                            .into(bg_blur_img);
+                }
             }
         }
     }
@@ -198,16 +216,22 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StartService();
             }
         });
-
+        btnPlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DanhsachbaihatActivity.this,PlaylistActivity.class);
+                startActivity(intent);
+            }
+        });
         btnPlayMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isMusic == false){
                     try {
                         PlayMusic(songs);
+//                        StartService();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -282,7 +306,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     }
 
     private void StartService() {
-        Intent intent = new Intent(this, MusicService.class);
+        Intent intent = new Intent(DanhsachbaihatActivity.this, MusicService.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("song",songs);
         intent.putExtras(bundle);

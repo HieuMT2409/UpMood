@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:padding="10dp"
+    android:layout_marginTop="8dp"
     android:background="@drawable/gradient"
     android:id="@+id/layout_notify">
 
@@ -27,14 +28,14 @@
         android:textSize="10sp" />
 
     <ImageView
-        android:id="@+id/largeIcon"
+        android:id="@+id/imgSongP"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
         android:layout_centerVertical="true"
         android:src="@drawable/anhsedonem"/>
     <LinearLayout
-        android:layout_toEndOf="@id/largeIcon"
+        android:layout_toEndOf="@id/imgSongP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -42,7 +43,7 @@
         android:layout_centerVertical="true"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/tvSongName"
+            android:id="@+id/tvSongNameP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -50,7 +51,7 @@
             android:textColor="#A1887F"
             android:text="Ten bai hat"/>
         <TextView
-            android:id="@+id/tvSinger"
+            android:id="@+id/tvSingerP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ten ca si"
@@ -58,36 +59,4 @@
             android:textSize="12sp"/>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imgPre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@id/imgPlay_Pause"
-        android:src="@drawable/pre_icon" />
-    <ImageView
-        android:id="@+id/imgPlay_Pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp"
-        android:src="@drawable/pause_icon"
-        android:layout_toStartOf="@+id/imgNext"
-        android:layout_marginEnd="10dp"
-        android:layout_centerVertical="true"
-        />
-
-    <ImageView
-        android:id="@+id/imgNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp"
-        android:src="@drawable/next_icon"
-        android:layout_marginEnd="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        />
 </RelativeLayout>

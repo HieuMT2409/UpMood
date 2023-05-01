@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         layoutManagerSongMaybe = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         layoutManagerSongCute = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
 
-        //layout bai hat thinh hang
+        //layout bai hat thinh hanh
         recycleSongNew = view.findViewById(R.id.recycleSongNew);
         recycleSongNew.setLayoutManager(layoutManagerSongNew);
 
