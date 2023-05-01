@@ -3,6 +3,7 @@ package com.example.upmood.Fragment;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,13 +20,16 @@ import android.widget.Toast;
 import com.example.upmood.Activity.MainActivity;
 import com.example.upmood.R;
 import com.facebook.CallbackManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.facebook.FacebookSdk;
 
 
 public class LoginFragment extends Fragment {
 
-    private FirebaseAuth auth;
+    private FirebaseAuth auth,authFb,authGg;
 
     private EditText edtUsername,edtPassword;
     private Button btnForgot,btnSignIn,btnFacebook,btnGoogle;
@@ -35,6 +39,8 @@ public class LoginFragment extends Fragment {
     private String mParam2;
     private ProgressDialog progressDialog;
     private CallbackManager callbackManager;
+    private GoogleSignInClient googleSignInClient;
+    private int RC_SIGN_IN = 1;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -55,10 +61,7 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        auth = FirebaseAuth.getInstance();
-
-        //xử lý facebook
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        authFb = FirebaseAuth.getInstance();
 
         // anh xa view
         edtUsername = view.findViewById(R.id.edtUsername);
@@ -68,6 +71,7 @@ public class LoginFragment extends Fragment {
         btnFacebook = view.findViewById(R.id.btnFacebook);
         btnGoogle = view.findViewById(R.id.btnGoogle);
         progressDialog = new ProgressDialog(getContext());
+
 
 
 
@@ -104,6 +108,8 @@ public class LoginFragment extends Fragment {
 
         return view;
     }
+
+
 
 
 }
