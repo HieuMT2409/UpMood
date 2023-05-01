@@ -69,6 +69,7 @@
             android:label="@string/thu_vien" />
         <activity android:name=".Activity.DanhsachbaihatActivity" />
         <activity android:name=".Activity.PlaylistActivity"/>
+        <activity android:name=".Activity.TopTrendingActivity"/>
     </application>
 
 </manifest>

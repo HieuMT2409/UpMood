@@ -15,10 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.upmood.Activity.DanhsachbaihatActivity;
+import com.example.upmood.Activity.TopTrendingActivity;
+import com.example.upmood.Adapter.TopTrendingAdapter;
 import com.example.upmood.OnItemClickListener;
+import com.example.upmood.OnTopItemClickListener;
 import com.example.upmood.R;
 import com.example.upmood.model.Songs;
 import com.example.upmood.Adapter.SongsAdapter;
+import com.example.upmood.model.TopTrending;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +36,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView recycleSongNew,recycleSongMaybe,recycleSongCute;
     private LinearLayoutManager layoutManagerSongNew,layoutManagerSongMaybe,layoutManagerSongCute;
     private SongsAdapter songsAdapter;
+    private TopTrendingAdapter trendingAdapter;
+
     private List<Songs> songsList;
+    private List<TopTrending> trendingList;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -62,10 +69,12 @@ public class HomeFragment extends Fragment {
 
         //set adapter cho recycle view song
         songsList = new ArrayList<>();
+        trendingList = new ArrayList<>();
         songsAdapter = new SongsAdapter(getContext(),songsList);
+        trendingAdapter = new TopTrendingAdapter(getContext(),trendingList);
 
         //set bai hat cho cac recycle view
-        recycleSongNew.setAdapter(songsAdapter);
+        recycleSongNew.setAdapter(trendingAdapter);
         recycleSongMaybe.setAdapter(songsAdapter);
         recycleSongCute.setAdapter(songsAdapter);
 
@@ -77,6 +86,14 @@ public class HomeFragment extends Fragment {
             public void onItemClick(Songs song) {
                 Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
                 intent.putExtra("BaiHat",song);
+                getActivity().startActivity(intent);
+            }
+        });
+        trendingAdapter.setOnItemClickListener(new OnTopItemClickListener() {
+            @Override
+            public void onTopItemClick(TopTrending song) {
+                Intent intent = new Intent(getActivity(), TopTrendingActivity.class);
+                intent.putExtra("Trending",song);
                 getActivity().startActivity(intent);
             }
         });
@@ -92,6 +109,7 @@ public class HomeFragment extends Fragment {
     private void getListSongsFromFireBase(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Songs");
+        DatabaseReference topTrend = database.getReference("TopTrending");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,6 +120,23 @@ public class HomeFragment extends Fragment {
                 }
 
                 songsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "FAILED !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        topTrend.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren()){
+                    TopTrending topTrending = snap.getValue(TopTrending.class);
+                    trendingList.add(topTrending);
+                }
+
+                trendingAdapter.notifyDataSetChanged();
             }
 
             @Override
