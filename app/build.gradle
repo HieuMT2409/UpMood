@@ -77,4 +77,5 @@ dependencies {
 
     implementation 'com.gauravk.audiovisualizer:audiovisualizer:0.9.2'
 
+
 }

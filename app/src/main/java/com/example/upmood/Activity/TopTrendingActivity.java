@@ -6,18 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -27,20 +22,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.upmood.R;
 import com.example.upmood.Service.MusicService;
-import com.example.upmood.model.Music;
 import com.example.upmood.model.Songs;
 import com.example.upmood.model.TopTrending;
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class DanhsachbaihatActivity extends AppCompatActivity {
+public class TopTrendingActivity extends AppCompatActivity {
 
-    private Songs songs;
+    private TopTrending trending;
     private ImageView bg_blur_img,themeMusic,btnBack,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd,tvscriptSong;
@@ -113,26 +106,26 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     private void DataIntent() throws IOException {
         Intent intent = getIntent();
         if(intent != null){
-            if(intent.hasExtra("BaiHat")){
-                songs = (Songs) intent.getSerializableExtra("BaiHat");
+            if(intent.hasExtra("Trending")){
+                trending = (TopTrending) intent.getSerializableExtra("Trending");
 
-                nameSong.setText(songs.getNameSong().toUpperCase());
+                nameSong.setText(trending.getNameSong().toUpperCase());
 
                 Glide.with(this)
-                        .load(songs.getImage())
+                        .load(trending.getImage())
                         .error(R.drawable.avatar_default)
                         .into(themeMusic);
 
                 Glide.with(this)
-                        .load(songs.getImage())
+                        .load(trending.getImage())
                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                         .into(bg_blur_img);
             }
         }
     }
 
-    private void PlayMusic(Songs songs) throws IOException {
-        String url = songs.getLinkSong();
+    private void PlayMusic(TopTrending trending) throws IOException {
+        String url = trending.getLinkSong();
         rotation = 0f;
 
         if (mediaPlayer != null) {
@@ -207,7 +200,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         btnPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DanhsachbaihatActivity.this,PlaylistActivity.class);
+                Intent intent = new Intent(TopTrendingActivity.this,PlaylistActivity.class);
                 startActivity(intent);
             }
         });
@@ -216,7 +209,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(isMusic == false){
                     try {
-                        PlayMusic(songs);
+                        PlayMusic(trending);
 //                        StartService();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -292,9 +285,9 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     }
 
     private void StartService() {
-        Intent intent = new Intent(DanhsachbaihatActivity.this, MusicService.class);
+        Intent intent = new Intent(TopTrendingActivity.this, MusicService.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("song",songs);
+        bundle.putSerializable("song",trending);
         intent.putExtras(bundle);
         startService(intent);
     }
