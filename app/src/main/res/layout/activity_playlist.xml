@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/header">
 
     <ImageView
         android:id="@+id/backMusic"
@@ -17,5 +18,104 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcPlaylist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:id="@+id/ControlWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:padding="10dp"
+            android:background="@drawable/gradient"
+            android:id="@+id/layout_notify">
+
+
+            <ImageView
+                android:id="@+id/img_song_note"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@+id/title_app"
+                android:src="@drawable/note_notify"
+                />
+            <TextView
+                android:id="@+id/title_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="#63000000"
+                android:text="UPMOOD MUSIC"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/iconPlaylist"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:src="@drawable/anhsedonem"/>
+            <LinearLayout
+                android:layout_toEndOf="@id/iconPlaylist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/songNamePlaylist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#A1887F"
+                    android:text="Ten bai hat"/>
+                <TextView
+                    android:id="@+id/singerPlaylist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ten ca si"
+                    android:textColor="#A1887F"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnPrePlaylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/btnPlay_Pause"
+                android:src="@drawable/pre_icon" />
+            <ImageView
+                android:id="@+id/btnPlay_Pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="18dp"
+                android:src="@drawable/pause_icon"
+                android:layout_toStartOf="@+id/btnNextPlaylist"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/btnNextPlaylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="18dp"
+                android:src="@drawable/next_icon"
+                android:layout_marginEnd="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

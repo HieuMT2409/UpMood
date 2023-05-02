@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:id="@+id/playView"
     tools:context=".Activity.DanhsachbaihatActivity">
 
     <ImageView
@@ -33,16 +36,6 @@
         android:layout_marginStart="10dp"
         app:tint="#A1887F" />
 
-    <ImageView
-        android:id="@+id/btnPlaylist"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/baseline_queue_music_24"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        app:tint="#A1887F" />
 
     <RelativeLayout
         android:layout_marginLeft="-200dp"
@@ -95,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:text="Loi bai hat"
-                android:gravity="center"
+                android:gravity="center|bottom"
+                android:layout_marginBottom="10dp"
                 android:textSize="16sp"/>
 
             <RelativeLayout
@@ -118,6 +112,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="80dp"
                     android:layout_marginRight="80dp"
+                    android:progressTint="@color/header"
                     />
 
                 <TextView
@@ -165,7 +160,34 @@
                 android:background="@drawable/circle_btn"
                 android:padding="10dp"
                 android:src="@drawable/next_icon"
-                tools:ignore="ImageContrastCheck" />
+                tools:ignore="ImageContrastCheck"
+                />
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnShuffle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/baseline_repeat_24"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:layout_marginEnd="15dp"
+        android:layout_centerVertical="true"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/btnPlaylist"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/baseline_queue_music_24"
+        android:layout_marginStart="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        app:tint="@color/white" />
 </RelativeLayout>
