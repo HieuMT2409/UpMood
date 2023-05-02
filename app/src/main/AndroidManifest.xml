@@ -70,6 +70,9 @@
         <activity android:name=".Activity.DanhsachbaihatActivity" />
         <activity android:name=".Activity.PlaylistActivity"/>
         <activity android:name=".Activity.TopTrendingActivity"/>
+        <activity android:name=".Activity.ForgotPasswordActivity"/>
+
+
     </application>
 
 </manifest>

@@ -2,13 +2,15 @@ package com.example.upmood.Fragment;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,30 +19,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.upmood.Activity.ForgotPasswordActivity;
 import com.example.upmood.Activity.MainActivity;
 import com.example.upmood.R;
 import com.facebook.CallbackManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.facebook.FacebookSdk;
 
 
 public class LoginFragment extends Fragment {
 
-    private FirebaseAuth auth,authFb,authGg;
+    private FirebaseAuth auth;
 
-    private EditText edtUsername,edtPassword;
-    private Button btnForgot,btnSignIn,btnFacebook,btnGoogle;
+    private EditText edtUsername,edtPassword,edtEmailuser;
+    private Button btnForgot,btnSignIn,btnSendEmail,btnFacebook,btnGoogle;
     private static final String ARG_PARAM1 = "Sign In";
     private static final String ARG_PARAM2 = "Sign Up";
     private String mParam1;
     private String mParam2;
     private ProgressDialog progressDialog;
     private CallbackManager callbackManager;
-    private GoogleSignInClient googleSignInClient;
-    private int RC_SIGN_IN = 1;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -55,23 +55,28 @@ public class LoginFragment extends Fragment {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        authFb = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
+
+        //xử lý facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         // anh xa view
         edtUsername = view.findViewById(R.id.edtUsername);
         edtPassword = view.findViewById(R.id.edtPassword);
+        edtEmailuser = view.findViewById(R.id.edtEmailuser);
         btnForgot = view.findViewById(R.id.btnForgot);
         btnSignIn = view.findViewById(R.id.btnSignIn);
+        btnSendEmail = view.findViewById(R.id.btnSendEmail);
         btnFacebook = view.findViewById(R.id.btnFacebook);
         btnGoogle = view.findViewById(R.id.btnGoogle);
         progressDialog = new ProgressDialog(getContext());
-
 
 
 
@@ -106,10 +111,17 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        //xu ly quen mat khau
+        btnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
-
-
 
 
 }
