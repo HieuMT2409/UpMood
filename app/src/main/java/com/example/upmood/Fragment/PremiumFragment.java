@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.upmood.Activity.DanhsachbaihatActivity;
 import com.example.upmood.Adapter.SongsAdapter;
-import com.example.upmood.OnItemClickListener;
+import com.example.upmood.Interface.OnItemClickListener;
 import com.example.upmood.R;
 import com.example.upmood.model.Songs;
 import com.google.firebase.database.DataSnapshot;
@@ -76,7 +76,7 @@ public class PremiumFragment extends Fragment {
         //bat su kien click item trong recycle view
         songsAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Songs song) {
+            public void onItemClick(Songs song, List<Songs> songsList) {
                 Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
                 intent.putExtra("BaiHat",song);
                 getActivity().startActivity(intent);

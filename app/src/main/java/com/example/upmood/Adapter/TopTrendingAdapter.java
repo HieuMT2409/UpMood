@@ -11,10 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.upmood.OnItemClickListener;
-import com.example.upmood.OnTopItemClickListener;
+import com.example.upmood.Interface.OnTopItemClickListener;
 import com.example.upmood.R;
-import com.example.upmood.model.Songs;
 import com.example.upmood.model.TopTrending;
 
 import java.util.List;
@@ -89,7 +87,7 @@ public class TopTrendingAdapter extends RecyclerView.Adapter<TopTrendingAdapter.
                         int position = getAbsoluteAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             TopTrending song = songsList.get(position);
-                            listener.onTopItemClick(song);
+                            listener.onTopItemClick(song,songsList);
                         }
                     }
                 }

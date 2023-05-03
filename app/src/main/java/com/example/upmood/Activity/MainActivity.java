@@ -1,5 +1,9 @@
 package com.example.upmood.Activity;
 
+import static android.Manifest.*;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,6 +22,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -39,6 +45,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CircleImageView avatar;
     private TextView tvUserName,tvUserEmail;
 
-    ProfileFragment profileFragment;
-    Uri uri;
+    private ProfileFragment profileFragment;
+    private Uri uri;
 
     final private ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -141,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //xu ly su kien tren navigation
         mnavigationView.setNavigationItemSelectedListener(this);
         mnavigationView.bringToFront();
+
 
         //hien thi thong tin user
         showUserInformation();
@@ -231,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode ==  MY_REQUEST_CODE){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if(grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED){
                 openGallery();
             }
         }

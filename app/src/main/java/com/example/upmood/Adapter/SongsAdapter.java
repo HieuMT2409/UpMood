@@ -1,20 +1,17 @@
 package com.example.upmood.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.upmood.Activity.DanhsachbaihatActivity;
-import com.example.upmood.OnItemClickListener;
+import com.example.upmood.Interface.OnItemClickListener;
 import com.example.upmood.R;
 import com.example.upmood.model.Songs;
 
@@ -90,7 +87,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsViewHol
                         int position = getAbsoluteAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             Songs song = songsList.get(position);
-                            listener.onItemClick(song);
+                            listener.onItemClick(song,songsList);
                         }
                     }
                 }

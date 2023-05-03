@@ -9,17 +9,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.upmood.Activity.DanhsachbaihatActivity;
-import com.example.upmood.Activity.TopTrendingActivity;
 import com.example.upmood.Adapter.TopTrendingAdapter;
-import com.example.upmood.OnItemClickListener;
-import com.example.upmood.OnTopItemClickListener;
+import com.example.upmood.Interface.OnItemClickListener;
+import com.example.upmood.Interface.OnTopItemClickListener;
 import com.example.upmood.R;
 import com.example.upmood.model.Songs;
 import com.example.upmood.Adapter.SongsAdapter;
@@ -30,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,20 +80,27 @@ public class HomeFragment extends Fragment {
 
         getListSongsFromFireBase();
 
+
         //bat su kien click item trong recycle view
         songsAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Songs song) {
+            public void onItemClick(Songs song, List<Songs> songsList) {
                 Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
-                intent.putExtra("BaiHat",song);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("BaiHat",song);
+                bundle.putSerializable("listBaiHat", (Serializable) songsList);
+                intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });
         trendingAdapter.setOnItemClickListener(new OnTopItemClickListener() {
             @Override
-            public void onTopItemClick(TopTrending song) {
-                Intent intent = new Intent(getActivity(), TopTrendingActivity.class);
-                intent.putExtra("Trending",song);
+            public void onTopItemClick(TopTrending song,List<TopTrending> topTrendingList) {
+                Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Trending",song);
+                bundle.putSerializable("listBaiHat", (Serializable) topTrendingList);
+                intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });
@@ -119,7 +125,6 @@ public class HomeFragment extends Fragment {
                     Songs song = snap.getValue(Songs.class);
                     songsList.add(song);
                 }
-
                 songsAdapter.notifyDataSetChanged();
             }
 

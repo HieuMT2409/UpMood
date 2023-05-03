@@ -1,9 +1,13 @@
 package com.example.upmood.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,8 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.upmood.Activity.DanhsachbaihatActivity;
-import com.example.upmood.OnItemClickListener;
+import com.example.upmood.Interface.OnItemClickListener;
 import com.example.upmood.R;
 import com.example.upmood.model.Songs;
 
@@ -22,6 +25,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.SongsV
     private List<Songs> songsList;
     private Context mContext;
     private OnItemClickListener mListener;
+    private int lastPosition = -1;
 
     public PlaylistAdapter(Context context, List<Songs> songsList) {
         mContext = context;
@@ -42,7 +46,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.SongsV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SongsViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Songs song = songsList.get(position);
         if(song == null){
             return;
@@ -56,7 +60,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.SongsV
                 .error(R.drawable.anhsedonem)
                 .into(holder.imgSongP);
 
-
+        if(position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
+            holder.itemView.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     @Override
@@ -88,7 +96,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.SongsV
                         int position = getAbsoluteAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             Songs song = songsList.get(position);
-                            listener.onItemClick(song);
+                            listener.onItemClick(song,songsList);
                         }
                     }
                 }

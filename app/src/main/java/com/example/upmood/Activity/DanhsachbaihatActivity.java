@@ -4,21 +4,29 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,13 +38,15 @@ import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private Songs songs;
-    private ImageView bg_blur_img,themeMusic,btnBack,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist;
+    private List<Songs> songsList;
+    private ImageView bg_blur_img,themeMusic,btnBack,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd,tvscriptSong;
@@ -48,13 +58,15 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     private boolean isPlay;
     private boolean isMusic;
     private int timeMax;
-    private int timeMusicStop=0;
+    private int timeMusicStop = 0;
+    private int currentSongIndex = 0;
     private float rotation = 0f;
 
     private ArrayList<String> arrScriptSong = new ArrayList<>();
 
     private int scriptLocation = 0;
-    private int repeatMode = 1;
+    private boolean repeatMode = false;
+    private boolean checkHeart = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -65,13 +77,6 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
         isPlay = false;
         isMusic = false;
-
-
-        // Kiểm tra quyền truy cập âm thanh
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECORD_AUDIO }, 0);
-        }
-
 
         //anh xa view
         bg_blur_img = findViewById(R.id.bg_blur_img);
@@ -87,7 +92,9 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         circleVisualizer = findViewById(R.id.circleVisualizer);
         btnPlaylist = findViewById(R.id.btnPlaylist);
+        btnHeart = findViewById(R.id.btnHeart);
         playView = findViewById(R.id.playView);
+        btnShuffle = findViewById(R.id.btnShuffle);
 
 
         //set thoi gian phat nhac
@@ -96,6 +103,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         //Load data
         try {
             DataIntent();
+            PlayMusic(songs.getLinkSong());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +124,9 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             if(intent.hasExtra("BaiHat")){
-                songs = (Songs) intent.getSerializableExtra("BaiHat");
+                Bundle bundle = intent.getExtras();
+                songs = (Songs) bundle.getSerializable("BaiHat");
+                songsList = (List<Songs>) bundle.getSerializable("listBaiHat");
 
                 nameSong.setText(songs.getNameSong().toUpperCase());
 
@@ -149,20 +159,18 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         }
     }
 
-    public void PlayMusic(Songs songs) throws IOException {
+    public void PlayMusic(String linkSong) throws IOException {
         rotation = 0f;
 
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
+            mediaPlayer = null;
         }
 
-
-
-//        mediaPlayer = new MediaPlayer();
         mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
         mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
-        mediaPlayer.setDataSource(songs.getLinkSong());
+        mediaPlayer.setDataSource(linkSong);
         mediaPlayer.prepareAsync();
 
         // xu ly lay time bai hat khi chay
@@ -183,11 +191,10 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                     }
                     timeMax = mediaPlayer.getDuration();
                     seekBar.setMax(timeMax);
-                    circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
                     tvTimeEnd.setText(getTimeString(timeMax));
+                    circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     tvTimeStart.setText(getTimeString(mediaPlayer.getCurrentPosition()));
-
                     mHandler.postDelayed(this, 100);
 
                     rotation = rotation + 0.5f;
@@ -205,10 +212,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
             @Override
             public void onCompletion(MediaPlayer mp) {
-                StopMusic();
-                seekBar.setProgress(0);
-                tvTimeStart.setText(getTimeString(0));
-                rotation = 0f;
+                NextMusic();
             }
         });
 
@@ -217,7 +221,105 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         isPlay = true;
     }
 
+    private void NextMusic(){
+        currentSongIndex++;
+        if(currentSongIndex >= songsList.size()){
+            currentSongIndex = 0;
+        }
+
+        try {
+            //lay du lieu cap nhat o playlist
+            songs = songsList.get(currentSongIndex);
+            setClick(songs);
+
+            //cap nhat du lieu
+            nameSong.setText(songs.getNameSong().toUpperCase());
+
+            Glide.with(DanhsachbaihatActivity.this)
+                    .load(songs.getImage())
+                    .error(R.drawable.avatar_default)
+                    .into(themeMusic);
+
+            Glide.with(DanhsachbaihatActivity.this)
+                    .load(songs.getImage())
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
+                    .into(bg_blur_img);
+
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(songs.getLinkSong());
+            mediaPlayer.prepare();
+
+            circleVisualizer.release();
+            if(circleVisualizer == null){
+                circleVisualizer = findViewById(R.id.circleVisualizer);
+            }
+            circleVisualizer.setColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+            circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
+
+            mediaPlayer.start();
+
+        } catch (IOException e) {
+
+        }
+    }
+
     private void setClick(Songs song){
+
+        btnShuffle.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View view) {
+                if(!repeatMode){
+                    repeatMode = true;
+                    btnShuffle.setImageResource(R.drawable.baseline_repeat_true_24);
+                }else{
+                    repeatMode = false;
+                    btnShuffle.setImageResource(R.drawable.baseline_repeat_24);
+                }
+            }
+        });
+
+        btnNextMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(songsList.size() > 0){
+                    if(currentSongIndex < (songsList.size())){
+
+                        if(repeatMode == true){
+                            if(currentSongIndex == 0){
+                                currentSongIndex = songsList.size();
+                            }
+                            currentSongIndex -= 1;
+                        }
+                        NextMusic();
+                    }
+                }
+                btnNextMusic.setClickable(false);
+                btnPreMusic.setClickable(false);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnNextMusic.setClickable(true);
+                        btnPreMusic.setClickable(true);
+                    }
+                },5000);
+            }
+        });
+
+        btnHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!checkHeart){
+                    checkHeart = true;
+                    btnHeart.setImageResource(R.drawable.baseline_favorite_24);
+                }else{
+                    checkHeart = false;
+                    btnHeart.setImageResource(R.drawable.baseline_favorite_border_24);
+
+                }
+            }
+        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,13 +337,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isMusic == false){
-                    try {
-                        PlayMusic(songs);
-                        Log.d("MEDIAAAAAA DANH SACH", String.valueOf(mediaPlayer));
-//                        StartService();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    //StartService();
                 }else{
                     if(isPlay == true){
                         StopMusic();

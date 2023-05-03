@@ -25,7 +25,13 @@
         android:text="Ten bai hat"
         android:textColor="#A1887F"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"/>
 
     <ImageView
         android:id="@+id/btnBack"
@@ -34,6 +40,16 @@
         android:src="@drawable/baseline_keyboard_arrow_left_24"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
+        app:tint="#A1887F" />
+
+    <ImageView
+        android:id="@+id/btnHeart"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_favorite_border_24"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
         app:tint="#A1887F" />
 
 

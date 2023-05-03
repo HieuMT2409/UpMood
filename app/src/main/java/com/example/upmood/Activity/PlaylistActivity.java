@@ -4,25 +4,24 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.upmood.Adapter.PlaylistAdapter;
-import com.example.upmood.Adapter.SongsAdapter;
-import com.example.upmood.OnItemClickListener;
+import com.example.upmood.Interface.OnItemClickListener;
 import com.example.upmood.R;
 import com.example.upmood.model.MediaPlayerSingleton;
 import com.example.upmood.model.Songs;
@@ -36,18 +35,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 public class PlaylistActivity extends AppCompatActivity {
 
     private RecyclerView rcPlaylist;
-    private ImageView backMusic;
     private PlaylistAdapter playlistAdapter;
     private List<Songs> songsList;
     private LinearLayout ControlWrapper;
     private Songs songs;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
+    private RelativeLayout backgroundPlaylist;
     private int timeMusicStop=0;
 
     private boolean isPlaying = true;
@@ -66,7 +63,6 @@ public class PlaylistActivity extends AppCompatActivity {
 
         //anh xa view
         rcPlaylist = findViewById(R.id.rcPlaylist);
-        backMusic = findViewById(R.id.backMusic);
         ControlWrapper = findViewById(R.id.ControlWrapper);
         iconPlaylist = findViewById(R.id.iconPlaylist);
         btnPrePlaylist = findViewById(R.id.btnPrePlaylist);
@@ -74,6 +70,7 @@ public class PlaylistActivity extends AppCompatActivity {
         btnNextPlaylist = findViewById(R.id.btnNextPlaylist);
         songNamePlaylist = findViewById(R.id.songNamePlaylist);
         singerPlaylist = findViewById(R.id.singerPlaylist);
+        backgroundPlaylist = findViewById(R.id.backgroundPlaylist);
 
         danhsachbaihatActivity = new DanhsachbaihatActivity();
 
@@ -97,7 +94,7 @@ public class PlaylistActivity extends AppCompatActivity {
         //bat su kien click item trong recycle view
         playlistAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Songs song) {
+            public void onItemClick(Songs song,List<Songs> songsList) {
                 mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
                 mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
@@ -106,7 +103,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 }
 
                 try {
-                    danhsachbaihatActivity.PlayMusic(song);
+                    danhsachbaihatActivity.PlayMusic(song.getLinkSong());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -117,21 +114,21 @@ public class PlaylistActivity extends AppCompatActivity {
             }
         });
 
-        backMusic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(PlaylistActivity.this, "Quay ve trang phat nhac", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         ControlWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PlaylistActivity.this,DanhsachbaihatActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this,DanhsachbaihatActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void setClick() {
