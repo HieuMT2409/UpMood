@@ -263,6 +263,52 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         }
     }
 
+    private void PreviousMusic(){
+        currentSongIndex-=1;
+        if(currentSongIndex >= songsList.size()){
+            currentSongIndex = 0;
+        }
+        if(currentSongIndex == 0){
+            currentSongIndex = songsList.size();
+        }
+
+        try {
+            //lay du lieu cap nhat o playlist
+            songs = songsList.get(currentSongIndex);
+            setClick(songs);
+
+            //cap nhat du lieu
+            nameSong.setText(songs.getNameSong().toUpperCase());
+
+            Glide.with(DanhsachbaihatActivity.this)
+                    .load(songs.getImage())
+                    .error(R.drawable.avatar_default)
+                    .into(themeMusic);
+
+            Glide.with(DanhsachbaihatActivity.this)
+                    .load(songs.getImage())
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
+                    .into(bg_blur_img);
+
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(songs.getLinkSong());
+            mediaPlayer.prepare();
+
+            circleVisualizer.release();
+            if(circleVisualizer == null){
+                circleVisualizer = findViewById(R.id.circleVisualizer);
+            }
+            circleVisualizer.setColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+            circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
+
+            mediaPlayer.start();
+
+
+        } catch (IOException e) {
+
+        }
+    }
+
     private void setClick(Songs song){
 
         btnShuffle.setOnClickListener(new View.OnClickListener() {

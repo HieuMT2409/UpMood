@@ -9,6 +9,16 @@
             android:icon="@drawable/baseline_person_24"/>
 
         <item
+            android:id="@+id/up_load_music"
+            android:title="Upload Music"
+            android:icon="@drawable/baseline_upload_24"/>
+
+        <item
+            android:id="@+id/down_load_music"
+            android:title="Download Music"
+            android:icon="@drawable/baseline_download_24"/>
+
+        <item
             android:id="@+id/upgrade"
             android:title="Upgrade Premium"
             android:icon="@drawable/baseline_diamond_24"/>
