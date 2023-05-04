@@ -180,7 +180,7 @@ public class MusicService extends Service {
     private void sendNotification(Songs song) throws ExecutionException, InterruptedException {
         Intent intent = new Intent(this, DanhsachbaihatActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         // xu ly hinh anh de them vao trong notification
         Bitmap bitmap = Glide.with(getApplicationContext())

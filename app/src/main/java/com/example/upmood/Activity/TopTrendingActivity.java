@@ -77,7 +77,6 @@ public class TopTrendingActivity extends AppCompatActivity {
         tvTimeStart = findViewById(R.id.tvTimeStart);
         tvTimeEnd = findViewById(R.id.tvTimeEnd);
         tvscriptSong = findViewById(R.id.tvscriptSong);
-        btnBack = findViewById(R.id.btnBack);
         circleVisualizer = findViewById(R.id.circleVisualizer);
         btnPlaylist = findViewById(R.id.btnPlaylist);
 

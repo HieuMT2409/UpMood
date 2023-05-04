@@ -50,14 +50,12 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private Songs songs;
     private List<Songs> songsList;
-    private ImageView bg_blur_img,themeMusic,btnBack,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
+    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd,tvscriptSong;
     private SeekBar seekBar;
     private CircleLineVisualizer circleVisualizer;
-
-    private RelativeLayout playView;
 
     private boolean isPlay;
     private boolean isMusic;
@@ -93,11 +91,9 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         tvTimeStart = findViewById(R.id.tvTimeStart);
         tvTimeEnd = findViewById(R.id.tvTimeEnd);
         tvscriptSong = findViewById(R.id.tvscriptSong);
-        btnBack = findViewById(R.id.btnBack);
         circleVisualizer = findViewById(R.id.circleVisualizer);
         btnPlaylist = findViewById(R.id.btnPlaylist);
         btnHeart = findViewById(R.id.btnHeart);
-        playView = findViewById(R.id.playView);
         btnShuffle = findViewById(R.id.btnShuffle);
 
 
@@ -162,44 +158,91 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                             .load(songs.getImage())
                             .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                             .into(bg_blur_img);
-                Log.d("TENNNNN", songs.getNameSong()+"-"+songs.getLinkSong());
+                    PlayMusicList(songs.getLinkSong());
+            }
+        }
+    }
 
-                mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-                mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(songs.getLinkSong());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                final Handler mHandler = new Handler();
-                Runnable mRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isMusic == false || isPlay == false) {
-                            return;
-                        }
-                        timeMax = mediaPlayer.getDuration();
-                        seekBar.setMax(timeMax);
-                        tvTimeEnd.setText(getTimeString(timeMax));
+    private void PlayMusicList(String linkSong) throws IOException {
+        mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
+        mediaPlayer.reset();
+        mediaPlayer.setDataSource(linkSong);
+        mediaPlayer.prepare();
+        mediaPlayer.start();
+        final Handler mHandler = new Handler();
+        Runnable mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (isMusic == false || isPlay == false) {
+                    return;
+                }
+                timeMax = mediaPlayer.getDuration();
+                seekBar.setMax(timeMax);
+                tvTimeEnd.setText(getTimeString(timeMax));
 //                    circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
-                        seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                        tvTimeStart.setText(getTimeString(mediaPlayer.getCurrentPosition()));
-                        mHandler.postDelayed(this, 100);
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                tvTimeStart.setText(getTimeString(mediaPlayer.getCurrentPosition()));
+                mHandler.postDelayed(this, 100);
 
-                        rotation = rotation + 0.5f;
-                        if(rotation == 360f){
-                            rotation = 0f;
+                rotation = rotation + 0.5f;
+                if(rotation == 360f){
+                    rotation = 0f;
+                }
+                themeMusic.setRotation(rotation);
+
+            }
+        };
+        mHandler.postDelayed(mRunnable, 100);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if(currentSongIndex < (songsList.size())) {
+
+                    if (isRandom == true) {
+                        Random random = new Random();
+                        int index = random.nextInt(songsList.size());
+                        if (currentSongIndex == index) {
+                            currentSongIndex = index - 1;
                         }
-                        themeMusic.setRotation(rotation);
+                        currentSongIndex = index;
+                    }
+                    currentSongIndex++;
+                    if (currentSongIndex >= songsList.size()) {
+                        currentSongIndex = 0;
+                    }
+                    try {
+                        //lay du lieu cap nhat o playlist
+                        songs = songsList.get(currentSongIndex);
+                        setClick(songs);
+
+                        //cap nhat du lieu
+                        nameSong.setText(songs.getNameSong().toUpperCase());
+
+                        Glide.with(DanhsachbaihatActivity.this)
+                                .load(songs.getImage())
+                                .error(R.drawable.avatar_default)
+                                .into(themeMusic);
+
+                        Glide.with(DanhsachbaihatActivity.this)
+                                .load(songs.getImage())
+                                .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 30)))
+                                .into(bg_blur_img);
+
+                        mediaPlayer.reset();
+                        mediaPlayer.setDataSource(songs.getLinkSong());
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+                    } catch (IOException e) {
 
                     }
-                };
-                mHandler.postDelayed(mRunnable, 100);
+                }
             }
-                btnPlayMusic.setImageResource(R.drawable.pause_icon);
-                isMusic = true;
-                isPlay = true;
-            }
-            }
+        });
+        btnPlayMusic.setImageResource(R.drawable.pause_icon);
+        isMusic = true;
+        isPlay = true;
+    }
 
 
     public void PlayMusic(String linkSong) throws IOException {
@@ -256,7 +299,19 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
             @Override
             public void onCompletion(MediaPlayer mp) {
-                NextMusic();
+                if(currentSongIndex < (songsList.size())){
+
+                    if(isRandom == true){
+                        Random random = new Random();
+                        int index = random.nextInt(songsList.size());
+                        if(currentSongIndex == index){
+                            currentSongIndex = index - 1;
+                        }
+                        currentSongIndex = index;
+                    }
+
+                    NextMusic();
+                }
             }
         });
 
@@ -292,14 +347,6 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(songs.getLinkSong());
             mediaPlayer.prepare();
-
-            if(circleVisualizer != null){
-                circleVisualizer.release();
-            }
-            circleVisualizer = new CircleLineVisualizer(this);
-            circleVisualizer.setColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-            circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
-
             mediaPlayer.start();
 
         } catch (IOException e) {
@@ -340,14 +387,6 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(songs.getLinkSong());
             mediaPlayer.prepare();
-
-            circleVisualizer.release();
-            if(circleVisualizer == null){
-                circleVisualizer = findViewById(R.id.circleVisualizer);
-            }
-            circleVisualizer.setColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-            circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
-
             mediaPlayer.start();
 
 
@@ -446,15 +485,6 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                     btnHeart.setImageResource(R.drawable.baseline_favorite_border_24);
 
                 }
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StartService();
-                Intent intent = new Intent(DanhsachbaihatActivity.this,MainActivity.class);
-                startActivity(intent);
             }
         });
         btnPlaylist.setOnClickListener(new View.OnClickListener() {
