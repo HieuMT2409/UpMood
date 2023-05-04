@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.audiofx.Visualizer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,11 +36,13 @@ import com.example.upmood.R;
 import com.example.upmood.Service.MusicService;
 import com.example.upmood.model.MediaPlayerSingleton;
 import com.example.upmood.model.Songs;
+import com.gauravk.audiovisualizer.base.BaseVisualizer;
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -65,15 +69,15 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     private ArrayList<String> arrScriptSong = new ArrayList<>();
 
     private int scriptLocation = 0;
-    private boolean repeatMode = false;
+    private boolean isRandom = false;
     private boolean checkHeart = false;
+    private boolean checkPlaylist = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danhsachbaihat);
-
 
         isPlay = false;
         isMusic = false;
@@ -103,7 +107,9 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         //Load data
         try {
             DataIntent();
-            PlayMusic(songs.getLinkSong());
+            if(checkPlaylist == false){
+                PlayMusic(songs.getLinkSong());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -139,9 +145,11 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                         .load(songs.getImage())
                         .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                         .into(bg_blur_img);
-            }else{
-                if(intent.hasExtra("Playlist")){
-                    songs = (Songs) intent.getSerializableExtra("Playlist");
+            }else if(intent.hasExtra("Playlist")){
+                    checkPlaylist = true;
+                    Bundle bundle = intent.getExtras();
+                    songs = (Songs) bundle.getSerializable("Playlist");
+                    songsList = (List<Songs>) bundle.getSerializable("listBaiHat");
 
                     nameSong.setText(songs.getNameSong().toUpperCase());
 
@@ -154,10 +162,45 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                             .load(songs.getImage())
                             .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                             .into(bg_blur_img);
-                }
+                Log.d("TENNNNN", songs.getNameSong()+"-"+songs.getLinkSong());
+
+                mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+                mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(songs.getLinkSong());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                final Handler mHandler = new Handler();
+                Runnable mRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isMusic == false || isPlay == false) {
+                            return;
+                        }
+                        timeMax = mediaPlayer.getDuration();
+                        seekBar.setMax(timeMax);
+                        tvTimeEnd.setText(getTimeString(timeMax));
+//                    circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
+                        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                        tvTimeStart.setText(getTimeString(mediaPlayer.getCurrentPosition()));
+                        mHandler.postDelayed(this, 100);
+
+                        rotation = rotation + 0.5f;
+                        if(rotation == 360f){
+                            rotation = 0f;
+                        }
+                        themeMusic.setRotation(rotation);
+
+                    }
+                };
+                mHandler.postDelayed(mRunnable, 100);
             }
-        }
-    }
+                btnPlayMusic.setImageResource(R.drawable.pause_icon);
+                isMusic = true;
+                isPlay = true;
+            }
+            }
+
 
     public void PlayMusic(String linkSong) throws IOException {
         rotation = 0f;
@@ -170,6 +213,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
         mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
         mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
+
         mediaPlayer.setDataSource(linkSong);
         mediaPlayer.prepareAsync();
 
@@ -192,7 +236,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                     timeMax = mediaPlayer.getDuration();
                     seekBar.setMax(timeMax);
                     tvTimeEnd.setText(getTimeString(timeMax));
-                    circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
+//                    circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     tvTimeStart.setText(getTimeString(mediaPlayer.getCurrentPosition()));
                     mHandler.postDelayed(this, 100);
@@ -249,10 +293,10 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             mediaPlayer.setDataSource(songs.getLinkSong());
             mediaPlayer.prepare();
 
-            circleVisualizer.release();
-            if(circleVisualizer == null){
-                circleVisualizer = findViewById(R.id.circleVisualizer);
+            if(circleVisualizer != null){
+                circleVisualizer.release();
             }
+            circleVisualizer = new CircleLineVisualizer(this);
             circleVisualizer.setColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
             circleVisualizer.setAudioSessionId(mediaPlayer.getAudioSessionId());
 
@@ -264,18 +308,21 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     }
 
     private void PreviousMusic(){
-        currentSongIndex-=1;
+
         if(currentSongIndex >= songsList.size()){
             currentSongIndex = 0;
         }
-        if(currentSongIndex == 0){
-            currentSongIndex = songsList.size();
-        }
-
-        try {
+        if(currentSongIndex < songsList.size()){
+            currentSongIndex-=1;
             //lay du lieu cap nhat o playlist
             songs = songsList.get(currentSongIndex);
             setClick(songs);
+        }
+        if(currentSongIndex < 0){
+            currentSongIndex = songsList.size() - 1 ;
+        }
+
+        try {
 
             //cap nhat du lieu
             nameSong.setText(songs.getNameSong().toUpperCase());
@@ -315,12 +362,12 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
-                if(!repeatMode){
-                    repeatMode = true;
-                    btnShuffle.setImageResource(R.drawable.baseline_repeat_true_24);
+                if(isRandom == false){
+                    isRandom = true;
+                    btnShuffle.setImageResource(R.drawable.baseline_shuffle_on_24);
                 }else{
-                    repeatMode = false;
-                    btnShuffle.setImageResource(R.drawable.baseline_repeat_24);
+                    isRandom = false;
+                    btnShuffle.setImageResource(R.drawable.baseline_shuffle_true_24);
                 }
             }
         });
@@ -331,13 +378,48 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                 if(songsList.size() > 0){
                     if(currentSongIndex < (songsList.size())){
 
-                        if(repeatMode == true){
-                            if(currentSongIndex == 0){
-                                currentSongIndex = songsList.size();
+                        if(isRandom == true){
+                            Random random = new Random();
+                            int index = random.nextInt(songsList.size());
+                            if(currentSongIndex == index){
+                                currentSongIndex = index - 1;
                             }
-                            currentSongIndex -= 1;
+                            currentSongIndex = index;
                         }
+
                         NextMusic();
+                    }
+                }
+                btnNextMusic.setClickable(false);
+                btnPreMusic.setClickable(false);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnNextMusic.setClickable(true);
+                        btnPreMusic.setClickable(true);
+                    }
+                },5000);
+
+            }
+        });
+
+        btnPreMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(songsList.size() > 0){
+                    if(currentSongIndex < (songsList.size())){
+
+                        if(isRandom == true){
+                            Random random = new Random();
+                            int index = random.nextInt(songsList.size());
+                            if(currentSongIndex == index){
+                                currentSongIndex = index - 1;
+                            }
+                            currentSongIndex = index;
+                        }
+
+                        PreviousMusic();
                     }
                 }
                 btnNextMusic.setClickable(false);
@@ -370,7 +452,9 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                playView.setVisibility(View.GONE);
+                StartService();
+                Intent intent = new Intent(DanhsachbaihatActivity.this,MainActivity.class);
+                startActivity(intent);
             }
         });
         btnPlaylist.setOnClickListener(new View.OnClickListener() {
@@ -420,6 +504,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         Intent intent = new Intent(DanhsachbaihatActivity.this,PlaylistActivity.class);
         intent.putExtra("music",song);
         startActivity(intent);
+        finish();
     }
 
     private void ContinueMusic() {

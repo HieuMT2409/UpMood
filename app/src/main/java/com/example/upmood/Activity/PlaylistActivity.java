@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,22 +96,12 @@ public class PlaylistActivity extends AppCompatActivity {
         playlistAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(Songs song,List<Songs> songsList) {
-                mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-                mediaPlayer = mediaPlayerSingleton.getMediaPlayer();
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
-
-                try {
-                    danhsachbaihatActivity.PlayMusic(song.getLinkSong());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-//                Intent intent = new Intent(PlaylistActivity.this, DanhsachbaihatActivity.class);
-//                intent.putExtra("Playlist",song);
-//                PlaylistActivity.this.startActivity(intent);
+                Intent intent = new Intent(PlaylistActivity.this, DanhsachbaihatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Playlist",song);
+                bundle.putSerializable("listBaiHat", (Serializable) songsList);
+                intent.putExtras(bundle);
+                PlaylistActivity.this.startActivity(intent);
             }
         });
 
@@ -126,9 +117,12 @@ public class PlaylistActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this,DanhsachbaihatActivity.class);
-        startActivity(intent);
-        finish();
+        Intent intent = new Intent(PlaylistActivity.this, DanhsachbaihatActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Playlist",songs);
+        bundle.putSerializable("listBaiHat", (Serializable) songsList);
+        intent.putExtras(bundle);
+        PlaylistActivity.this.startActivity(intent);
     }
 
     private void setClick() {
@@ -154,8 +148,6 @@ public class PlaylistActivity extends AppCompatActivity {
         if(intent != null){
             if(intent.hasExtra("music")){
                 songs = (Songs) intent.getSerializableExtra("music");
-                mediaPlayer = (MediaPlayer) intent.getSerializableExtra("media_player");
-
                 songNamePlaylist.setText(songs.getNameSong().toUpperCase());
                 singerPlaylist.setText(songs.getSinger());
 
