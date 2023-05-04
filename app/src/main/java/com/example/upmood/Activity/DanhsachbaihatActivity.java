@@ -2,33 +2,25 @@ package com.example.upmood.Activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.audiofx.Visualizer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -36,11 +28,9 @@ import com.example.upmood.R;
 import com.example.upmood.Service.MusicService;
 import com.example.upmood.model.MediaPlayerSingleton;
 import com.example.upmood.model.Songs;
-import com.gauravk.audiovisualizer.base.BaseVisualizer;
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -53,7 +43,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
-    private TextView nameSong,tvTimeStart,tvTimeEnd,tvscriptSong;
+    private TextView nameSong,tvTimeStart,tvTimeEnd;
     private SeekBar seekBar;
     private CircleLineVisualizer circleVisualizer;
 
@@ -63,13 +53,10 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     private int timeMusicStop = 0;
     private int currentSongIndex = 0;
     private float rotation = 0f;
-
-    private ArrayList<String> arrScriptSong = new ArrayList<>();
-
-    private int scriptLocation = 0;
     private boolean isRandom = false;
     private boolean checkHeart = false;
     private boolean checkPlaylist = false;
+    private String linkSong;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,7 +77,6 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         seekBar = findViewById(R.id.seekBar);
         tvTimeStart = findViewById(R.id.tvTimeStart);
         tvTimeEnd = findViewById(R.id.tvTimeEnd);
-        tvscriptSong = findViewById(R.id.tvscriptSong);
         circleVisualizer = findViewById(R.id.circleVisualizer);
         btnPlaylist = findViewById(R.id.btnPlaylist);
         btnHeart = findViewById(R.id.btnHeart);
@@ -477,13 +463,17 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         btnHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!checkHeart){
-                    checkHeart = true;
-                    btnHeart.setImageResource(R.drawable.baseline_favorite_24);
+                String linkSong = songs.getLinkSong();
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_DENIED){
+                        String[] permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                        requestPermissions(permission,123);
+                    }else{
+                        StartDownload(linkSong);
+                    }
                 }else{
-                    checkHeart = false;
-                    btnHeart.setImageResource(R.drawable.baseline_favorite_border_24);
-
+                    StartDownload(linkSong);
                 }
             }
         });
@@ -528,6 +518,34 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
                 btnPlayMusic.setImageResource(R.drawable.pause_icon);
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 123) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                StartDownload(linkSong);
+            }else{
+                Toast.makeText(this, "Permission Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void StartDownload(String linkSong) {
+        Log.d("LINKKKKKKKKKKKK", linkSong);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(linkSong));
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+        request.setTitle("Download");
+        request.setDescription("Downloading Music ...");
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, String.valueOf(System.currentTimeMillis()));
+
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        if(downloadManager != null){
+            downloadManager.enqueue(request);
+        }
     }
 
     private void Playlist(Songs song) {

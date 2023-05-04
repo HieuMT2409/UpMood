@@ -1,70 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/bg_main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#19542F"
     android:orientation="vertical"
-    tools:context=".Fragment.PremiumFragment">
+    android:padding="20dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageButton
+        android:id="@+id/btn_up_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:backgroundTint="#8567DB"
+        app:srcCompat="@drawable/btn_up_down" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/btn_karaoke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:backgroundTint="#AA6E37"
+        app:srcCompat="@drawable/btn_karaoke" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#0392FF"
+        android:layout_gravity="center"
+        android:layout_margin="15dp">
+
+        <RadioButton
+            android:id="@+id/btn_price_benefit"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:gravity="center"
+            android:text="12 tháng: 73.999 đ/th"
+            android:textColor="#95FFAC"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingStart="20dp"
-                android:text="@string/thinhhanh"
-                android:textColor="@color/primary"
-                android:textSize="20sp" />
+    </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleSongNew"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#0392FF"
+        android:layout_gravity="center"
+        android:layout_margin="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingStart="20dp"
-                android:text="@string/cothebanmuonnghe"
-                android:textColor="@color/primary"
-                android:textSize="20sp" />
+        <RadioButton
+            android:id="@+id/btn_price_month"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="1 tháng: 89.999 đ"
+            android:textColor="#95FFAC"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_margin="5dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleSongMaybe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingStart="20dp"
-                android:text="@string/cute"
-                android:textColor="@color/primary"
-                android:textSize="20sp" />
+    <ImageButton
+        android:id="@+id/btn_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:backgroundTint="#B9372F"
+        app:srcCompat="@drawable/btn_price_month" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleSongCute"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"/>
-        </LinearLayout>
-    </ScrollView>
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_dieukhoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#C933DA"
+        android:text="Điều khoản sử dụng"
+        android:textColor="#95FFAC" />
+
+    <Button
+        android:id="@+id/btn_chinhsach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#4CAF50"
+        android:text="Chính sách quyền riêng tư"
+        android:textColor="#95FFAC" />
 
 </LinearLayout>

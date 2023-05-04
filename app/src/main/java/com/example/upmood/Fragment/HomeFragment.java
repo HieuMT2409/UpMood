@@ -14,11 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.upmood.Activity.ChillActivity;
 import com.example.upmood.Activity.DanhsachbaihatActivity;
+import com.example.upmood.Activity.TopTrendingActivity;
+import com.example.upmood.Adapter.ChillAdapter;
 import com.example.upmood.Adapter.TopTrendingAdapter;
+import com.example.upmood.Interface.OnChillItemClickListener;
 import com.example.upmood.Interface.OnItemClickListener;
 import com.example.upmood.Interface.OnTopItemClickListener;
 import com.example.upmood.R;
+import com.example.upmood.model.Chill;
 import com.example.upmood.model.Songs;
 import com.example.upmood.Adapter.SongsAdapter;
 import com.example.upmood.model.TopTrending;
@@ -30,16 +35,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recycleSongNew,recycleSongMaybe,recycleSongCute;
     private LinearLayoutManager layoutManagerSongNew,layoutManagerSongMaybe,layoutManagerSongCute;
     private SongsAdapter songsAdapter;
     private TopTrendingAdapter trendingAdapter;
+    private ChillAdapter chillAdapter;
 
     private List<Songs> songsList;
     private List<TopTrending> trendingList;
+    private List<Chill> chillList;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -63,20 +72,23 @@ public class HomeFragment extends Fragment {
         recycleSongMaybe = view.findViewById(R.id.recycleSongMaybe);
         recycleSongMaybe.setLayoutManager(layoutManagerSongMaybe);
 
-        //layout bai hat cute
+        //layout bai hat chill
         recycleSongCute = view.findViewById(R.id.recycleSongCute);
         recycleSongCute.setLayoutManager(layoutManagerSongCute);
 
         //set adapter cho recycle view song
         songsList = new ArrayList<>();
         trendingList = new ArrayList<>();
+        chillList = new ArrayList<>();
+
         songsAdapter = new SongsAdapter(getContext(),songsList);
         trendingAdapter = new TopTrendingAdapter(getContext(),trendingList);
+        chillAdapter = new ChillAdapter(getContext(),chillList);
 
         //set bai hat cho cac recycle view
         recycleSongNew.setAdapter(trendingAdapter);
         recycleSongMaybe.setAdapter(songsAdapter);
-        recycleSongCute.setAdapter(songsAdapter);
+        recycleSongCute.setAdapter(chillAdapter);
 
         getListSongsFromFireBase();
 
@@ -95,11 +107,22 @@ public class HomeFragment extends Fragment {
         });
         trendingAdapter.setOnItemClickListener(new OnTopItemClickListener() {
             @Override
-            public void onTopItemClick(TopTrending song,List<TopTrending> topTrendingList) {
-                Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
+            public void onTopItemClick(TopTrending song,List<TopTrending> trendingList) {
+                Intent intent = new Intent(getActivity(), TopTrendingActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Trending",song);
-                bundle.putSerializable("listBaiHat", (Serializable) topTrendingList);
+                bundle.putSerializable("listBaiHat", (Serializable) trendingList);
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+            }
+        });
+        chillAdapter.setOnItemClickListener(new OnChillItemClickListener() {
+            @Override
+            public void onChillItemClick(Chill song, List<Chill> chillList) {
+                Intent intent = new Intent(getActivity(), ChillActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Chill",song);
+                bundle.putSerializable("listBaiHat", (Serializable) chillList);
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
@@ -117,6 +140,7 @@ public class HomeFragment extends Fragment {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Songs");
         DatabaseReference topTrend = database.getReference("TopTrending");
+        DatabaseReference chill = database.getReference("Chill");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -143,6 +167,22 @@ public class HomeFragment extends Fragment {
                 }
 
                 trendingAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "FAILED !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        chill.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren()){
+                    Chill chillSong = snap.getValue(Chill.class);
+                    chillList.add(chillSong);
+                }
+
+                chillAdapter.notifyDataSetChanged();
             }
 
             @Override

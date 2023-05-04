@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.upmood.R;
 import com.example.upmood.Service.MusicService;
+import com.example.upmood.model.Chill;
 import com.example.upmood.model.MediaPlayerSingleton;
 import com.example.upmood.model.TopTrending;
 import com.gauravk.audiovisualizer.visualizer.CircleLineVisualizer;
@@ -36,10 +37,10 @@ import java.util.Random;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class TopTrendingActivity extends AppCompatActivity {
+public class ChillActivity extends AppCompatActivity {
 
-    private TopTrending songs;
-    private List<TopTrending> songsList;
+    private Chill songs;
+    private List<Chill> songsList;
     private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
@@ -111,10 +112,10 @@ public class TopTrendingActivity extends AppCompatActivity {
     private void DataIntent() throws IOException {
         Intent intent = getIntent();
         if(intent != null){
-            if(intent.hasExtra("Trending")){
+            if(intent.hasExtra("Chill")){
                 Bundle bundle = intent.getExtras();
-                songs = (TopTrending) bundle.getSerializable("Trending");
-                songsList = (List<TopTrending>) bundle.getSerializable("listBaiHat");
+                songs = (Chill) bundle.getSerializable("Chill");
+                songsList = (List<Chill>) bundle.getSerializable("listBaiHat");
 
                 nameSong.setText(songs.getNameSong().toUpperCase());
 
@@ -130,8 +131,8 @@ public class TopTrendingActivity extends AppCompatActivity {
             }else if(intent.hasExtra("Playlist")){
                     checkPlaylist = true;
                     Bundle bundle = intent.getExtras();
-                    songs = (TopTrending) bundle.getSerializable("Playlist");
-                    songsList = (List<TopTrending>) bundle.getSerializable("listBaiHat");
+                    songs = (Chill) bundle.getSerializable("Playlist");
+                    songsList = (List<Chill>) bundle.getSerializable("listBaiHat");
 
                     nameSong.setText(songs.getNameSong().toUpperCase());
 
@@ -205,12 +206,12 @@ public class TopTrendingActivity extends AppCompatActivity {
                         //cap nhat du lieu
                         nameSong.setText(songs.getNameSong().toUpperCase());
 
-                        Glide.with(TopTrendingActivity.this)
+                        Glide.with(ChillActivity.this)
                                 .load(songs.getImage())
                                 .error(R.drawable.avatar_default)
                                 .into(themeMusic);
 
-                        Glide.with(TopTrendingActivity.this)
+                        Glide.with(ChillActivity.this)
                                 .load(songs.getImage())
                                 .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 30)))
                                 .into(bg_blur_img);
@@ -320,12 +321,12 @@ public class TopTrendingActivity extends AppCompatActivity {
             //cap nhat du lieu
             nameSong.setText(songs.getNameSong().toUpperCase());
 
-            Glide.with(TopTrendingActivity.this)
+            Glide.with(ChillActivity.this)
                     .load(songs.getImage())
                     .error(R.drawable.avatar_default)
                     .into(themeMusic);
 
-            Glide.with(TopTrendingActivity.this)
+            Glide.with(ChillActivity.this)
                     .load(songs.getImage())
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                     .into(bg_blur_img);
@@ -360,12 +361,12 @@ public class TopTrendingActivity extends AppCompatActivity {
             //cap nhat du lieu
             nameSong.setText(songs.getNameSong().toUpperCase());
 
-            Glide.with(TopTrendingActivity.this)
+            Glide.with(ChillActivity.this)
                     .load(songs.getImage())
                     .error(R.drawable.avatar_default)
                     .into(themeMusic);
 
-            Glide.with(TopTrendingActivity.this)
+            Glide.with(ChillActivity.this)
                     .load(songs.getImage())
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(25,30)))
                     .into(bg_blur_img);
@@ -381,7 +382,7 @@ public class TopTrendingActivity extends AppCompatActivity {
         }
     }
 
-    private void setClick(TopTrending song){
+    private void setClick(Chill song){
 
         btnShuffle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
@@ -548,8 +549,8 @@ public class TopTrendingActivity extends AppCompatActivity {
         }
     }
 
-    private void Playlist(TopTrending song) {
-        Intent intent = new Intent(TopTrendingActivity.this,PlaylistTrendingActivity.class);
+    private void Playlist(Chill song) {
+        Intent intent = new Intent(ChillActivity.this,PlaylistChillActivity.class);
         intent.putExtra("music",song);
         startActivity(intent);
         finish();
@@ -594,7 +595,7 @@ public class TopTrendingActivity extends AppCompatActivity {
     }
 
     private void StartService() {
-        Intent intent = new Intent(TopTrendingActivity.this, MusicService.class);
+        Intent intent = new Intent(ChillActivity.this, MusicService.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("song",songs);
         intent.putExtras(bundle);

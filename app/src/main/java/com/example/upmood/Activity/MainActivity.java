@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.example.upmood.Fragment.HomeFragment;
 import com.example.upmood.Fragment.LibraryFragment;
 import com.example.upmood.Fragment.PremiumFragment;
+import com.example.upmood.Fragment.UploadFragment;
 import com.example.upmood.R;
 import com.example.upmood.Fragment.SearchFragment;
 import com.example.upmood.databinding.ActivityMainBinding;
@@ -181,6 +182,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.my_profile:
                 replaceFragment(new ProfileFragment());
+                break;
+            case R.id.up_load_music:
+                replaceFragment(new UploadFragment());
                 break;
             case R.id.upgrade:
                 replaceFragment(new UpgradeFragment());
