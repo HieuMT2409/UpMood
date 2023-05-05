@@ -149,6 +149,8 @@ public class SearchFragment extends Fragment {
         for(Search search : searchArrayList){
             if(search.getNameSong().toLowerCase().contains(text.toLowerCase())){
                 searches.add(search);
+            }else{
+                tvNoData.setVisibility(View.VISIBLE);
             }
         }
         searchAdapter = new SearchAdapter(getContext(),searches);

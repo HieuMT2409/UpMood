@@ -41,13 +41,6 @@ public class UploadFragment extends Fragment {
         edtSinger = view.findViewById(R.id.edtSinger);
         btnUpload = view.findViewById(R.id.btnUpload);
 
-        String id = edtNameSong.getText().toString().toLowerCase();
-        Log.d("CHEcKKKKKKKK", id);
-        String getImage = edtImage.getText().toString();
-        String getSong = edtSong.getText().toString();
-        String getName = edtNameSong.getText().toString();
-        String getSinger = edtSinger.getText().toString();
-
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,10 +52,7 @@ public class UploadFragment extends Fragment {
                 String getSong = edtSong.getText().toString();
                 String getName = edtNameSong.getText().toString();
                 String getSinger = edtSinger.getText().toString();
-                Log.d("IMGAAAAAAa", getImage);
-                Log.d("SONGSSSSS", getSong);
-                Log.d("NAEMEEEEEEEEE", getName);
-                Log.d("SINGERRRR", getSinger);
+
                 //khởi tạo lên firebase
                 DatabaseReference image = database.getReference("UserSong/"+id+"/image");
                 DatabaseReference liked = database.getReference("UserSong/"+id+"/liked");
