@@ -76,7 +76,8 @@
         <activity android:name=".Activity.PlaylistTrendingActivity"/>
         <activity android:name=".Activity.ChillActivity"/>
         <activity android:name=".Activity.PlaylistChillActivity"/>
-
+        <activity android:name=".Activity.SearchActivity"/>
+        <activity android:name=".Activity.PlaylistSearchActivity"/>
     </application>
 
 </manifest>

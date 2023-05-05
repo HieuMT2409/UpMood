@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:padding="10dp"
+    android:background="#F8F2EB"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tâm trạng bạn hôm nay thế nào"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#A1887F"
+        android:gravity="center"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/btnHappy"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/heart"/>
+
+        <ImageView
+            android:id="@+id/btnSad"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/sad"/>
+    </LinearLayout>
+</LinearLayout>

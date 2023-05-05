@@ -4,6 +4,7 @@ import static android.Manifest.*;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,7 +14,9 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -96,6 +99,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //xu ly dialog
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.layout_dialog);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(firebaseAuth -> {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                dialog.show();
+            }
+        });
+
+        ImageView btnHappy = dialog.findViewById(R.id.btnHappy);
+        ImageView btnSad = dialog.findViewById(R.id.btnSad);
+
+        btnHappy.setOnClickListener(view -> {
+            dialog.dismiss();
+            Toast.makeText(MainActivity.this, "Thật là tuyệt vời, hãy cùng nâng cao cảm xúc cùng UpMood nào !", Toast.LENGTH_SHORT).show();
+        });
+
+        btnSad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this, "Buồn thì cũng buồn một chút thôi, hãy để UpMood kéo mood cho bạn nhé !", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         //khoi tao phuong thuc profileFragment
         profileFragment = new ProfileFragment();

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -130,13 +131,28 @@ public class PlaylistActivity extends AppCompatActivity {
         btnPlay_Pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
+                if(isPlaying == true){
+                    isPlaying = false;
                     btnPlay_Pause.setImageResource(R.drawable.play_icon);
+                    mediaPlayer.pause();
                     timeMusicStop = mediaPlayer.getCurrentPosition();
                 }else{
+                    isPlaying = true;
                     btnPlay_Pause.setImageResource(R.drawable.pause_icon);
+                    mediaPlayer.seekTo(timeMusicStop);
                     mediaPlayer.start();
+                    final Handler handler = new Handler();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isPlaying == false) {
+                                return;
+                            }
+                            handler.postDelayed(this, 100);
+
+                        }
+                    };
+                    handler.postDelayed(runnable, 100);
                 }
             }
         });

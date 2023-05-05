@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.SearchFragment">
+    tools:context=".Fragment.SearchFragment"
+    android:orientation="vertical"
+    android:id="@+id/linearSearch">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
     <TextView
@@ -20,4 +21,4 @@
         android:gravity="center"
         android:textColor="@color/av_green"
         android:visibility="gone"/>
-</FrameLayout>
+</LinearLayout>

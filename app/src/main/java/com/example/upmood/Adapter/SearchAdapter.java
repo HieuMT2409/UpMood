@@ -37,7 +37,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SongsViewH
     @NonNull
     @Override
     public SongsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.songs_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_music,parent,false);
 
         return new SongsViewHolder(view,mListener);
     }
@@ -50,12 +50,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SongsViewH
         }
 
         //còn phần hiển thị hình ảnh cho bài hát
-        holder.tvTitleSong.setText(song.getNameSong());
-        holder.tvSinger.setText(song.getSinger());
+        holder.tvSongNameP.setText(song.getNameSong());
+        holder.tvSingerP.setText(song.getSinger());
         Glide.with(mContext)
                 .load(song.getImage())
                 .error(R.drawable.anhsedonem)
-                .into(holder.imgSong);
+                .into(holder.imgSongP);
 
 
     }
@@ -70,16 +70,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SongsViewH
 
     public class SongsViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView imgSong;
-        private TextView tvTitleSong,tvSinger;
+        private ImageView imgSongP;
+        private TextView tvSongNameP,tvSingerP;
 
         public SongsViewHolder(@NonNull View itemView, final OnSearchItemClickListener listener) {
             super(itemView);
 
             //ánh xạ view
-            imgSong = itemView.findViewById(R.id.imgSong);
-            tvTitleSong = itemView.findViewById(R.id.tvTitleSong);
-            tvSinger = itemView.findViewById(R.id.tvSinger);
+            imgSongP = itemView.findViewById(R.id.imgSongP);
+            tvSongNameP = itemView.findViewById(R.id.tvSongNameP);
+            tvSingerP = itemView.findViewById(R.id.tvSingerP);
 
             //bắt sự kiện click
             itemView.setOnClickListener(new View.OnClickListener() {
