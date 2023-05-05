@@ -2,6 +2,8 @@ package com.example.upmood.Fragment;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -59,6 +61,5 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Thư viện");
     }
 }
