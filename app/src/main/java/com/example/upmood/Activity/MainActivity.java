@@ -228,6 +228,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.notify:
+                Toast.makeText(this, "Chưa có thông báo mới", Toast.LENGTH_SHORT).show();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
