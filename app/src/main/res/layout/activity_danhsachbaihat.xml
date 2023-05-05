@@ -119,8 +119,9 @@
                     android:layout_marginLeft="80dp"
                     android:layout_marginRight="80dp"
                     android:progressTint="#A1887F"
-                    android:thumb="@drawable/thumb"
                     android:thumbTint="#A1887F"
+                    android:thumb="@drawable/baseline_favorite_24"
+                    android:splitTrack="false"
                     />
 
                 <TextView

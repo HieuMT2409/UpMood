@@ -2,17 +2,17 @@ package com.example.upmood.model;
 
 import java.io.Serializable;
 
-public class Songs implements Serializable {
+public class Search implements Serializable {
     private String image;
     private String liked;
     private String linkSong;
     private String nameSong;
     private String singer;
 
-    public Songs() {
+    public Search() {
     }
 
-    public Songs(String image, String liked, String linkSong, String nameSong, String singer) {
+    public Search(String image, String liked, String linkSong, String nameSong, String singer) {
         this.image = image;
         this.liked = liked;
         this.linkSong = linkSong;

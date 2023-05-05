@@ -3,16 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#19542F"
     tools:context=".Fragment.SearchFragment">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
-    <!-- TODO: Update blank fragment layout -->
+    </androidx.recyclerview.widget.RecyclerView>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search Fragement"
-        android:layout_gravity="center"
-        android:textColor="#95FFAC"
-        android:textSize="20dp"/>
-
+        android:id="@+id/tvNoData"
+        android:textSize="35sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/nodata"
+        android:gravity="center"
+        android:textColor="@color/av_green"
+        android:visibility="gone"/>
 </FrameLayout>

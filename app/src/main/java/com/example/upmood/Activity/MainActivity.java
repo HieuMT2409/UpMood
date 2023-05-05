@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ProfileFragment profileFragment;
     private Uri uri;
-
+    private boolean isSearch = false;
+    private boolean isNotify = true;
     final private ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
@@ -162,12 +163,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+        if(fragment instanceof SearchFragment){
+            isSearch = true;
+            isNotify = false;
+        }else{
+            isSearch = false;
+            isNotify = true;
+        }
+        invalidateOptionsMenu();
     }
 
     //hien thi menu va xu ly khi nhan nut
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.search).setVisible(false);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_notify,menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        MenuItem notify = menu.findItem(R.id.notify);
+        searchItem.setVisible(isSearch);
+        notify.setVisible(isNotify);
         return true;
     }
 
