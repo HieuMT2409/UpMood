@@ -27,6 +27,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongsViewHol
         this.songsList = songsList;
     }
 
+    public SongsAdapter(Context context) {
+    }
+
     //khoi tao ham onclick dde su dung click vao item trong recycle view
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;

@@ -40,7 +40,7 @@ public class TopTrendingActivity extends AppCompatActivity {
 
     private TopTrending songs;
     private List<TopTrending> songsList;
-    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
+    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle,btnBack;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd;
@@ -81,6 +81,7 @@ public class TopTrendingActivity extends AppCompatActivity {
         btnPlaylist = findViewById(R.id.btnPlaylist);
         btnHeart = findViewById(R.id.btnHeart);
         btnShuffle = findViewById(R.id.btnShuffle);
+        btnBack = findViewById(R.id.btnBack);
 
 
         //set thoi gian phat nhac
@@ -382,6 +383,13 @@ public class TopTrendingActivity extends AppCompatActivity {
     }
 
     private void setClick(TopTrending song){
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         btnShuffle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")

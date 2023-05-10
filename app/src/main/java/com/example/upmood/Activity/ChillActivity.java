@@ -41,7 +41,7 @@ public class ChillActivity extends AppCompatActivity {
 
     private Chill songs;
     private List<Chill> songsList;
-    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
+    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle,btnBack;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd;
@@ -82,6 +82,7 @@ public class ChillActivity extends AppCompatActivity {
         btnPlaylist = findViewById(R.id.btnPlaylist);
         btnHeart = findViewById(R.id.btnHeart);
         btnShuffle = findViewById(R.id.btnShuffle);
+        btnBack = findViewById(R.id.btnBack);
 
 
         //set thoi gian phat nhac
@@ -383,6 +384,13 @@ public class ChillActivity extends AppCompatActivity {
     }
 
     private void setClick(Chill song){
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         btnShuffle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")

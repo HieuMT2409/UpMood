@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.upmood.Activity.ChillActivity;
@@ -29,6 +31,9 @@ import com.example.upmood.model.Search;
 import com.example.upmood.model.Songs;
 import com.example.upmood.Adapter.SongsAdapter;
 import com.example.upmood.model.TopTrending;
+import com.example.upmood.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,13 +49,10 @@ import java.util.Random;
 public class HomeFragment extends Fragment {
     private RecyclerView recycleSongNew,recycleSongMaybe,recycleSongCute;
     private LinearLayoutManager layoutManagerSongNew,layoutManagerSongMaybe,layoutManagerSongCute;
-    private SongsAdapter songsAdapter;
-    private TopTrendingAdapter trendingAdapter;
-    private ChillAdapter chillAdapter;
+    private SongsAdapter songsAdapter,trendingAdapter,chillAdapter;
 
-    private List<Songs> songsList;
-    private List<TopTrending> trendingList;
-    private List<Chill> chillList;
+    private List<Songs> songsList,trendingList,chillList;
+    private RelativeLayout playView;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -84,8 +86,8 @@ public class HomeFragment extends Fragment {
         chillList = new ArrayList<>();
 
         songsAdapter = new SongsAdapter(getContext(),songsList);
-        trendingAdapter = new TopTrendingAdapter(getContext(),trendingList);
-        chillAdapter = new ChillAdapter(getContext(),chillList);
+        trendingAdapter = new SongsAdapter(getContext(),trendingList);
+        chillAdapter = new SongsAdapter(getContext(),chillList);
 
         //set bai hat cho cac recycle view
         recycleSongNew.setAdapter(trendingAdapter);
@@ -94,6 +96,7 @@ public class HomeFragment extends Fragment {
 
         getListSongsFromFireBase();
 
+        playView = view.findViewById(R.id.playView);
 
         //bat su kien click item trong recycle view
         songsAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -107,24 +110,24 @@ public class HomeFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-        trendingAdapter.setOnItemClickListener(new OnTopItemClickListener() {
+        trendingAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onTopItemClick(TopTrending song,List<TopTrending> trendingList) {
-                Intent intent = new Intent(getActivity(), TopTrendingActivity.class);
+            public void onItemClick(Songs song, List<Songs> songsList) {
+                Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Trending",song);
-                bundle.putSerializable("listBaiHat", (Serializable) trendingList);
+                bundle.putSerializable("BaiHat",song);
+                bundle.putSerializable("listBaiHat", (Serializable) songsList);
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });
-        chillAdapter.setOnItemClickListener(new OnChillItemClickListener() {
+        chillAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onChillItemClick(Chill song, List<Chill> chillList) {
-                Intent intent = new Intent(getActivity(), ChillActivity.class);
+            public void onItemClick(Songs song, List<Songs> songsList) {
+                Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Chill",song);
-                bundle.putSerializable("listBaiHat", (Serializable) chillList);
+                bundle.putSerializable("BaiHat",song);
+                bundle.putSerializable("listBaiHat", (Serializable) songsList);
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
@@ -140,9 +143,9 @@ public class HomeFragment extends Fragment {
 
     private void getListSongsFromFireBase(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Songs");
-        DatabaseReference topTrend = database.getReference("TopTrending");
-        DatabaseReference chill = database.getReference("Chill");
+        DatabaseReference myRef = database.getReference("Search");
+        DatabaseReference topTrend = database.getReference("Search");
+        DatabaseReference chill = database.getReference("Search");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -151,6 +154,8 @@ public class HomeFragment extends Fragment {
                     Songs song = snap.getValue(Songs.class);
                     songsList.add(song);
                 }
+                Collections.shuffle(songsList);
+                songsList.addAll(songsList);
                 songsAdapter.notifyDataSetChanged();
             }
 
@@ -164,10 +169,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snap : snapshot.getChildren()){
-                    TopTrending topTrending = snap.getValue(TopTrending.class);
+                    Songs topTrending = snap.getValue(Songs.class);
                     trendingList.add(topTrending);
                 }
-
+                Collections.shuffle(trendingList);
+                trendingList.addAll(trendingList);
                 trendingAdapter.notifyDataSetChanged();
             }
 
@@ -180,10 +186,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snap : snapshot.getChildren()){
-                    Chill chillSong = snap.getValue(Chill.class);
+                    Songs chillSong = snap.getValue(Songs.class);
                     chillList.add(chillSong);
                 }
-
+                Collections.shuffle(chillList);
+                chillList.addAll(chillList);
                 chillAdapter.notifyDataSetChanged();
             }
 

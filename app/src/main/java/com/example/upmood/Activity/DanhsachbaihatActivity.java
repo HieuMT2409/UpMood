@@ -40,7 +40,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private Songs songs;
     private List<Songs> songsList;
-    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle;
+    private ImageView bg_blur_img,themeMusic,btnPreMusic,btnPlayMusic,btnNextMusic,btnPlaylist,btnHeart,btnShuffle,btnBack;
     private MediaPlayerSingleton mediaPlayerSingleton;
     private MediaPlayer mediaPlayer;
     private TextView nameSong,tvTimeStart,tvTimeEnd;
@@ -81,6 +81,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         btnPlaylist = findViewById(R.id.btnPlaylist);
         btnHeart = findViewById(R.id.btnHeart);
         btnShuffle = findViewById(R.id.btnShuffle);
+        btnBack = findViewById(R.id.btnBack);
 
 
         //set thoi gian phat nhac
@@ -383,6 +384,13 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private void setClick(Songs song){
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         btnShuffle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -533,7 +541,6 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     }
 
     private void StartDownload(String linkSong) {
-        Log.d("LINKKKKKKKKKKKK", linkSong);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(linkSong));
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setTitle("Download");
