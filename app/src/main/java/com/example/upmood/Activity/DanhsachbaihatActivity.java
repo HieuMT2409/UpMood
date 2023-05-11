@@ -604,10 +604,12 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("isDialog",true);
         startActivity(intent);
         finish();
     }

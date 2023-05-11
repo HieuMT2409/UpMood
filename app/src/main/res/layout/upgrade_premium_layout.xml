@@ -163,14 +163,15 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/gradient_2"
                     android:gravity="center"
-                    android:padding="20dp"
+                    android:padding="10dp"
                     android:clickable="true">
 
                     <TextView
                         android:id="@+id/noidung"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="premium email"
                         android:textSize="20sp"
                         android:textStyle="bold" />

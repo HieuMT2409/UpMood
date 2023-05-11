@@ -6,11 +6,13 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Uri uri;
     private boolean isSearch = false;
     private boolean isNotify = true;
+    private boolean isDialog = false;
     final private ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
@@ -106,9 +109,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.setContentView(R.layout.layout_dialog);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        Intent intent = getIntent();
+        isDialog = intent.getBooleanExtra("isDialog",false);
         mAuth.addAuthStateListener(firebaseAuth -> {
             FirebaseUser currentUser = mAuth.getCurrentUser();
-            if (currentUser != null) {
+            if (currentUser != null && !isDialog) {
                 dialog.show();
             }
         });
